@@ -7,7 +7,8 @@ ALLOWED_EXTENSIONS = {
     ".jpg",
     ".jpeg",
     ".docx",
-    ".txt"
+    ".txt",
+    ".pptx"
 }
 
 

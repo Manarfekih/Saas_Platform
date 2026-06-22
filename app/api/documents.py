@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, UploadFile, File, HTTPException
+from fastapi import APIRouter, Depends, UploadFile, File
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
@@ -7,17 +7,17 @@ from app.core.file_validation import validate_file_extension
 
 from app.models.document import Document
 from app.schemas.document import DocumentOut
+from app.schemas.document_upload import DocumentUploadOut
 
 from app.services.document_service import (
     save_file,
     create_document_record,
     get_user_document,
     delete_document,
-    update_document_text,
-    mark_document_failed
 )
+from app.services.chat_memory_service import create_chat_session
 
-from app.services.ocr_service import extract_text
+from app.tasks.document_tasks import process_document
 
 router = APIRouter(
     prefix="/documents",
@@ -25,23 +25,24 @@ router = APIRouter(
 )
 
 
-@router.post("/upload", response_model=DocumentOut)
+@router.post("/", response_model=DocumentUploadOut)
+@router.post("/upload", response_model=DocumentUploadOut, include_in_schema=False)
 def upload_document(
     file: UploadFile = File(...),
     db: Session = Depends(get_db),
     current_user=Depends(get_current_user)
 ):
 
-    # 1. Validate file type
+    # Validate file type
     validate_file_extension(file.filename)
 
-    # 2. Save file to disk
+    # Save file
     file_path = save_file(
         file=file,
         user_id=current_user.id
     )
 
-    # 3. Create DB record
+    # Create DB record
     document = create_document_record(
         db=db,
         user_id=current_user.id,
@@ -49,26 +50,22 @@ def upload_document(
         file_path=file_path
     )
 
-    # 4. OCR processing
-    try:
-        extracted_text = extract_text(document.file_path)
+    chat_session = create_chat_session(
+        db=db,
+        user_id=current_user.id,
+        document_id=document.id,
+    )
 
-        document = update_document_text(
-            db=db,
-            document=document,
-            extracted_text=extracted_text
-        )
+    # Send background task
+    process_document.delay(
+        document.id
+    )
 
-    except Exception as e:
-
-        print(f"OCR Error: {e}")
-
-        mark_document_failed(
-            db=db,
-            document=document
-        )
-
-    return document
+    # Return immediately
+    return {
+        "document": document,
+        "session_id": chat_session.id,
+    }
 
 
 @router.get("/", response_model=list[DocumentOut])
@@ -122,4 +119,25 @@ def remove_document(
 
     return {
         "message": "Document deleted successfully"
+    }
+
+@router.get("/{doc_id}/status")
+def get_document_status(
+    doc_id: int,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user)
+):
+
+    document = get_user_document(
+        db=db,
+        document_id=doc_id,
+        user_id=current_user.id
+    )
+
+    return {
+        "id": document.id,
+        "status": document.status,
+        "processing_step": document.processing_step,
+        "progress": document.progress,
+        "error_message": document.error_message
     }

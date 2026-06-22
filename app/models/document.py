@@ -8,13 +8,20 @@ class Document(Base):
 
     id = Column(Integer, primary_key=True)
 
-    user_id = Column(Integer, ForeignKey("users.id"))
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
 
-    filename = Column(String)
-    file_path = Column(String)
+    filename = Column(String, nullable=False)
+    file_path = Column(String, nullable=False)
 
     doc_type = Column(String, nullable=True)
 
     extracted_text = Column(Text, nullable=True)
+    error_message = Column(Text, nullable=True)
 
     status = Column(String, default="pending")
+
+    processing_step = Column(String, nullable=True)
+
+    progress = Column(Integer, default=0)
+
+    total_chunks = Column(Integer, default=0)

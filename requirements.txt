@@ -3,20 +3,30 @@ uvicorn[standard]
 
 sqlalchemy
 psycopg2-binary
+alembic
 
 python-dotenv
 
 passlib[bcrypt]
 bcrypt==4.0.1
 python-jose[cryptography]
+
 pydantic[email]
 python-multipart
-python-docx
-
-alembic
 
 pgvector
 
-pytesseract
-pdf2image
+celery
+redis
+
+langchain
+langchain-ollama
+langchain-text-splitters
+
+tiktoken
+
 Pillow
+pdf2image
+
+python-docx
+python-pptx

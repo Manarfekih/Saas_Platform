@@ -4,9 +4,36 @@ services:
     build: .
     ports:
       - "8000:8000"
+    env_file:
+      - .env
     depends_on:
       postgres:
         condition: service_healthy
+      redis:
+        condition: service_started
+      ollama:
+        condition: service_started
+    volumes:
+      - .:/app
+      - uploads_data:/app/uploads
+    restart: always
+
+  worker:
+    build: .
+    command: celery -A app.celery_app.celery_app worker --loglevel=info --concurrency=1
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      ollama:
+        condition: service_started
+    volumes:
+      - .:/app
+      - uploads_data:/app/uploads
+    restart: always
 
   postgres:
     image: pgvector/pgvector:pg16
@@ -24,5 +51,29 @@ services:
       timeout: 5s
       retries: 10
 
+  redis:
+    image: redis:7-alpine
+    container_name: ai_platform_redis
+    ports:
+      - "6379:6379"
+    restart: always
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
 volumes:
   postgres_data:
+  uploads_data:
+  ollama_data:

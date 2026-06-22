@@ -1,51 +1,52 @@
 import os
-
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from app.models.document import Document
 
+UPLOAD_DIR = "/app/uploads" 
 
 def save_file(file, user_id: int):
 
-    user_folder = f"uploads/user_{user_id}"
+    user_folder = os.path.join(UPLOAD_DIR, f"user_{user_id}")
 
     os.makedirs(user_folder, exist_ok=True)
 
-    file_path = f"{user_folder}/{file.filename}"
+    # safer filename (avoid spaces/issues in Docker/Linux)
+    safe_filename = file.filename.replace(" ", "_")
 
-    with open(file_path, "wb") as f:
-        f.write(file.file.read())
+    file_path = os.path.join(user_folder, safe_filename)
+
+    try:
+        with open(file_path, "wb") as f:
+            f.write(file.file.read())
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"File save failed: {str(e)}"
+        )
 
     return file_path
 
 
-def create_document_record(
-    db: Session,
-    user_id: int,
-    filename: str,
-    file_path: str
-):
+def create_document_record(db: Session, user_id: int, filename: str, file_path: str):
 
-    doc = Document(
+    document = Document(
         user_id=user_id,
         filename=filename,
         file_path=file_path,
-        status="pending"
+        status="pending",
+        error_message=None
     )
 
-    db.add(doc)
+    db.add(document)
     db.commit()
-    db.refresh(doc)
+    db.refresh(document)
 
-    return doc
+    return document
 
 
-def get_user_document(
-    db: Session,
-    document_id: int,
-    user_id: int
-):
+def get_user_document(db: Session, document_id: int, user_id: int):
 
     document = (
         db.query(Document)
@@ -57,18 +58,12 @@ def get_user_document(
     )
 
     if not document:
-        raise HTTPException(
-            status_code=404,
-            detail="Document not found"
-        )
+        raise HTTPException(status_code=404, detail="Document not found")
 
     return document
 
 
-def delete_document(
-    db: Session,
-    document: Document
-):
+def delete_document(db: Session, document: Document):
 
     if os.path.exists(document.file_path):
         os.remove(document.file_path)
@@ -77,29 +72,28 @@ def delete_document(
     db.commit()
 
 
-def update_document_text(
-    db: Session,
-    document: Document,
-    extracted_text: str
-):
+def mark_processing(db: Session, document: Document):
 
-    document.extracted_text = extracted_text
-
-    document.status = "processed"
-
+    document.status = "processing"
     db.commit()
-
     db.refresh(document)
-
     return document
 
 
+def update_document_success(db: Session, document_id: int, text: str):
 
-def mark_document_failed(
-    db: Session,
-    document: Document
-):
+    db.query(Document).filter(Document.id == document_id).update({
+        "extracted_text": text,
+        "status": "processed"
+    })
 
-    document.status = "failed"
+    db.commit()
+
+
+def mark_failed(db: Session, document_id: int):
+
+    db.query(Document).filter(Document.id == document_id).update({
+        "status": "failed"
+    })
 
     db.commit()
