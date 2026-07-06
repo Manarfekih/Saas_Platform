@@ -1,4 +1,6 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Text
+from datetime import datetime
+
+from sqlalchemy import Column, Integer, String, ForeignKey, Text, DateTime
 from app.db.database import Base
 
 
@@ -25,3 +27,9 @@ class Document(Base):
     progress = Column(Integer, default=0)
 
     total_chunks = Column(Integer, default=0)
+
+    created_at = Column(
+        DateTime,
+        default=datetime.utcnow,
+        nullable=False,
+    )

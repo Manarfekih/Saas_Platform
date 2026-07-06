@@ -6,7 +6,12 @@ from app.core.deps import get_current_user
 from app.core.file_validation import validate_file_extension
 
 from app.models.document import Document
+from app.models.chat_session import ChatSession
+from app.models.message import Message
+from app.models.chat_type import ChatType
+
 from app.schemas.document import DocumentOut
+from app.schemas.document_list import DocumentListOut
 from app.schemas.document_upload import DocumentUploadOut
 
 from app.services.document_service import (
@@ -53,6 +58,7 @@ def upload_document(
     chat_session = create_chat_session(
         db=db,
         user_id=current_user.id,
+        chat_type=ChatType.DOCUMENT,
         document_id=document.id,
     )
 
@@ -68,7 +74,7 @@ def upload_document(
     }
 
 
-@router.get("/", response_model=list[DocumentOut])
+@router.get("/", response_model=list[DocumentListOut])
 def get_documents(
     db: Session = Depends(get_db),
     current_user=Depends(get_current_user)
@@ -77,6 +83,7 @@ def get_documents(
     documents = (
         db.query(Document)
         .filter(Document.user_id == current_user.id)
+        .order_by(Document.id.desc())
         .all()
     )
 
@@ -121,6 +128,7 @@ def remove_document(
         "message": "Document deleted successfully"
     }
 
+
 @router.get("/{doc_id}/status")
 def get_document_status(
     doc_id: int,
@@ -140,4 +148,81 @@ def get_document_status(
         "processing_step": document.processing_step,
         "progress": document.progress,
         "error_message": document.error_message
+    }
+
+
+@router.get("/{doc_id}/chat-session")
+def get_document_chat_session(
+    doc_id: int,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user)
+):
+    document = get_user_document(
+        db=db,
+        document_id=doc_id,
+        user_id=current_user.id
+    )
+
+    session = (
+        db.query(ChatSession)
+        .filter(ChatSession.document_id == document.id)
+        .filter(ChatSession.user_id == current_user.id)
+        .first()
+    )
+
+    if not session:
+        session = create_chat_session(
+            db=db,
+            user_id=current_user.id,
+            chat_type=ChatType.DOCUMENT,
+            document_id=document.id
+        )
+
+    return {
+        "session_id": session.id
+    }
+
+@router.get("/{doc_id}/chat-history")
+def get_document_chat_history(
+    doc_id: int,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user)
+):
+    document = get_user_document(
+        db=db,
+        document_id=doc_id,
+        user_id=current_user.id
+    )
+
+    session = (
+        db.query(ChatSession)
+        .filter(ChatSession.document_id == document.id)
+        .filter(ChatSession.user_id == current_user.id)
+        .first()
+    )
+
+    if not session:
+        session = create_chat_session(
+            db=db,
+            user_id=current_user.id,
+            chat_type=ChatType.DOCUMENT,
+            document_id=document.id
+        )
+
+    messages = (
+        db.query(Message)
+        .filter(Message.session_id == session.id)
+        .order_by(Message.id.asc())
+        .all()
+    )
+
+    return {
+        "session_id": session.id,
+        "messages": [
+            {
+                "role": message.role,
+                "content": message.content,
+            }
+            for message in messages
+        ],
     }

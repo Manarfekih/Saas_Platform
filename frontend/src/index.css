@@ -1,6 +1,1017 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
+
+/* ============================================================
+   ITGATE-INSPIRED DESIGN SYSTEM
+   Primary: #0044EB | Dark: #020842 | Secondary: #F44380
+   ============================================================ */
+
+:root {
+  /* Core Colors */
+  --primary:        #0044EB;
+  --primary-rgb:    0, 68, 235;
+  --primary-dark:   #0035c4;
+  --secondary:      #F44380;
+  --dark:           #020842;
+  --dark-rgb:       2, 8, 66;
+  --light:          #E3F0FF;
+  --light-rgb:      227, 240, 255;
+  --body-color:     #49515B;
+  --success:        #47B16A;
+  --warning:        #F3A338;
+  --danger:         #F26F4D;
+  --info:           #23BABF;
+  --white:          #ffffff;
+
+  /* Gradients */
+  --gradient-primary:   linear-gradient(135deg, #0044eb 0%, #b83bf1 100%);
+  --gradient-dark:      linear-gradient(135deg, #020842 0%, #0044EB 100%);
+  --gradient-hero:      linear-gradient(160deg, #020842 0%, #021270 50%, #0044eb 100%);
+
+  /* Typography */
+  --font-body:      'Outfit', system-ui, -apple-system, sans-serif;
+  --font-heading:   'Outfit', system-ui, -apple-system, sans-serif;
+
+  /* Spacing & Shape */
+  --radius-sm:      6px;
+  --radius-md:      10px;
+  --radius-lg:      16px;
+  --radius-xl:      24px;
+  --radius-pill:    50px;
+
+  /* Shadows */
+  --shadow-sm:      0 2px 8px rgba(2, 8, 66, 0.06);
+  --shadow-md:      0 8px 24px rgba(2, 8, 66, 0.10);
+  --shadow-lg:      0 20px 48px rgba(2, 8, 66, 0.14);
+  --shadow-primary: 0 8px 24px rgba(0, 68, 235, 0.30);
+
+  /* Borders */
+  --border-color:   #E3F0FF;
+  --border-dark:    rgba(255,255,255,0.1);
+
+  /* Transitions */
+  --transition:     all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   margin: 0;
-  min-height: 100vh;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--body-color);
+  background-color: var(--white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--dark);
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0 0 1rem;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition);
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0.4); }
+  50%       { box-shadow: 0 0 0 8px rgba(var(--primary-rgb), 0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.animate-fadeInDown { animation: fadeInDown 0.5s ease-out both; }
+.animate-fadeInUp   { animation: fadeInUp 0.6s ease-out both; }
+.animate-fadeIn     { animation: fadeIn 0.4s ease-out both; }
+.animate-float      { animation: float 4s ease-in-out infinite; }
+
+/* ============================================================
+   ITGATE BUTTON SYSTEM
+   ============================================================ */
+
+.btn-itgate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 36px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--primary);
+  border: 1.5px solid var(--primary);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: var(--transition);
+  outline: none;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+}
+
+.btn-itgate:hover {
+  background: var(--gradient-primary);
+  border-color: transparent;
+  box-shadow: var(--shadow-primary);
+  transform: translateY(-1px);
+}
+
+.btn-itgate:active {
+  transform: translateY(0);
+}
+
+.btn-itgate:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-itgate-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 36px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--primary);
+  background: transparent;
+  border: 1.5px solid var(--primary);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-itgate-outline:hover {
+  background: var(--primary);
+  color: var(--white);
+  box-shadow: var(--shadow-primary);
+  transform: translateY(-1px);
+}
+
+.btn-itgate-sm {
+  padding: 9px 22px;
+  font-size: 12px;
+}
+
+.btn-itgate-gradient {
+  background: var(--gradient-primary);
+  border-color: transparent;
+}
+
+.btn-itgate-gradient:hover {
+  filter: brightness(1.1);
+}
+
+/* ============================================================
+   ITGATE CARD SYSTEM
+   ============================================================ */
+
+.card-itgate {
+  background: var(--white);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.card-itgate:hover {
+  border-color: rgba(var(--primary-rgb), 0.25);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* ============================================================
+   ITGATE FORM INPUTS
+   ============================================================ */
+
+.input-itgate {
+  width: 100%;
+  padding: 14px 18px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--dark);
+  background: #F8FBFF;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  outline: none;
+  transition: var(--transition);
+}
+
+.input-itgate::placeholder {
+  color: #aab5c8;
+}
+
+.input-itgate:focus {
+  border-color: var(--primary);
+  background: var(--white);
+  box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.08);
+}
+
+.label-itgate {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--body-color);
+  margin-bottom: 8px;
+}
+
+/* ============================================================
+   SIDEBAR (Dark Navy — ITGate Style)
+   ============================================================ */
+
+.itgate-sidebar {
+  width: 256px;
+  min-height: 100vh;
+  background: var(--dark);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.itgate-sidebar::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  left: -80px;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, rgba(var(--primary-rgb), 0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.itgate-sidebar::after {
+  content: '';
+  position: absolute;
+  bottom: -60px;
+  right: -60px;
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(244, 67, 128, 0.10) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.itgate-sidebar-logo {
+  padding: 24px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  position: relative;
+  z-index: 1;
+}
+
+.itgate-sidebar-nav {
+  padding: 16px 12px;
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.itgate-sidebar-nav-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: rgba(255,255,255,0.35);
+  padding: 0 12px;
+  margin-bottom: 8px;
+}
+
+.itgate-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.65);
+  transition: var(--transition);
+  margin-bottom: 3px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.itgate-nav-item:hover {
+  color: var(--white);
+  background: rgba(255,255,255,0.07);
+}
+
+.itgate-nav-item.active {
+  color: var(--white);
+  background: var(--primary);
+  box-shadow: 0 4px 16px rgba(var(--primary-rgb), 0.40);
+}
+
+.itgate-sidebar-bottom {
+  padding: 16px 12px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================================
+   NAVBAR (White — ITGate Style)
+   ============================================================ */
+
+.itgate-navbar {
+  height: 68px;
+  background: var(--white);
+  border-bottom: 1.5px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.itgate-navbar-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #aab5c8;
+  letter-spacing: 0.3px;
+}
+
+/* ============================================================
+   STATUS BADGES
+   ============================================================ */
+
+.badge-success {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 14px;
+  background: rgba(71, 177, 106, 0.10);
+  color: var(--success);
+  border: 1px solid rgba(71, 177, 106, 0.25);
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-warning {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 14px;
+  background: rgba(243, 163, 56, 0.10);
+  color: var(--warning);
+  border: 1px solid rgba(243, 163, 56, 0.25);
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-danger {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 14px;
+  background: rgba(242, 111, 77, 0.10);
+  color: var(--danger);
+  border: 1px solid rgba(242, 111, 77, 0.25);
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 14px;
+  background: rgba(0, 68, 235, 0.08);
+  color: var(--primary);
+  border: 1px solid rgba(0, 68, 235, 0.20);
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ============================================================
+   STAT CARD
+   ============================================================ */
+
+.stat-card-itgate {
+  background: var(--white);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card-itgate::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-primary);
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.stat-card-itgate:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+  border-color: rgba(var(--primary-rgb), 0.2);
+}
+
+.stat-card-itgate:hover::before {
+  opacity: 1;
+}
+
+/* ============================================================
+   TABLE
+   ============================================================ */
+
+.itgate-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.itgate-table thead tr {
+  background: var(--light);
+}
+
+.itgate-table thead th {
+  padding: 13px 20px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--body-color);
+}
+
+.itgate-table tbody tr {
+  border-bottom: 1px solid var(--border-color);
+  transition: var(--transition);
+}
+
+.itgate-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.itgate-table tbody tr:hover {
+  background: rgba(var(--light-rgb), 0.7);
+}
+
+.itgate-table tbody td {
+  padding: 16px 20px;
+  color: var(--body-color);
+}
+
+/* ============================================================
+   PAGE LAYOUT
+   ============================================================ */
+
+.itgate-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #F0F5FF;
+  color: var(--body-color);
+}
+
+.itgate-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.itgate-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 32px;
+}
+
+/* ============================================================
+   AUTH PAGES
+   ============================================================ */
+
+.itgate-auth-left {
+  background: var(--gradient-hero);
+  position: relative;
+  overflow: hidden;
+}
+
+.itgate-auth-left-blob-1 {
+  position: absolute;
+  top: -120px;
+  right: -120px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(var(--primary-rgb), 0.35) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.itgate-auth-left-blob-2 {
+  position: absolute;
+  bottom: -100px;
+  left: -100px;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(244, 67, 128, 0.20) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.itgate-auth-left-blob-3 {
+  position: absolute;
+  top: 40%;
+  left: 30%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(184, 59, 241, 0.18) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.itgate-feature-check {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: var(--radius-md);
+  color: rgba(255,255,255,0.90);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.itgate-feature-check-icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  background: rgba(71, 177, 106, 0.20);
+  border: 1px solid rgba(71, 177, 106, 0.40);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6EE89A;
+}
+
+/* ============================================================
+   UPLOAD MODAL / DRAG DROP
+   ============================================================ */
+
+.itgate-dropzone {
+  border: 2px dashed var(--primary);
+  border-radius: var(--radius-lg);
+  background: rgba(var(--primary-rgb), 0.03);
+  transition: var(--transition);
+}
+
+.itgate-dropzone:hover, .itgate-dropzone.active {
+  background: rgba(var(--primary-rgb), 0.07);
+  border-color: var(--primary-dark);
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(var(--dark-rgb), 0.15);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--primary-rgb), 0.40);
+}
+
+/* ============================================================
+   SKELETON LOADER
+   ============================================================ */
+
+.skeleton {
+  background: linear-gradient(90deg, var(--light) 25%, #d8eaff 50%, var(--light) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.4s ease-in-out infinite;
+  border-radius: var(--radius-md);
+}
+
+@keyframes skeleton-loading {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ============================================================
+   LOADING SPINNER
+   ============================================================ */
+
+.itgate-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid rgba(255,255,255,0.3);
+  border-top-color: var(--white);
+  border-radius: 50%;
+  animation: spin-slow 0.7s linear infinite;
+  display: inline-block;
+}
+
+/* ============================================================
+   SITE FOOTER  
+   ============================================================ */
+
+.site-footer {
+  background: linear-gradient(160deg, #020842 0%, #030d5a 55%, #0044EB 100%);
+  color: rgba(255, 255, 255, 0.75);
+  font-family: var(--font-body);
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── Marquee service strip ── */
+.footer-marquee-wrap {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,68,235,0.18);
+  padding: 14px 0;
+  overflow: hidden;
+}
+
+.footer-marquee {
+  display: flex;
+  gap: 0;
+  animation: marquee-scroll 20s linear infinite;
+  width: max-content;
+}
+
+@keyframes marquee-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.footer-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 28px;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.85);
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.footer-pill-check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0044EB, #b83bf1);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ── Main footer body ── */
+.footer-body {
+  padding: 72px 0 56px;
+}
+
+.footer-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.footer-body > .footer-container {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+  gap: 48px;
+  align-items: stretch;
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-self: stretch;
+}
+
+/* ── Brand column ── */
+.footer-logo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-decoration: none;
+  margin-bottom: 18px;
+}
+
+.footer-logo-icon {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  background: transparent;
+  box-shadow: none;
+  line-height: 0;
+}
+
+.footer-logo-icon img {
+  width: 120px !important;
+  height: auto !important;
+  display: block;
+}
+
+
+
+.footer-brand-desc {
+  font-size: 14.5px;
+  line-height: 1.75;
+  color: rgba(255,255,255,0.6);
+  margin: 0;
+}
+
+/* ── Column headings ── */
+.footer-col-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+  color: #ffffff;
+  margin: 0 0 24px;
+  position: relative;
+  padding-bottom: 14px;
+}
+
+.footer-col-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 36px;
+  height: 2px;
+  background: linear-gradient(90deg, #0044EB, #b83bf1);
+  border-radius: 2px;
+}
+
+/* ── Link list ── */
+.footer-link-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 14.5px;
+  color: rgba(255,255,255,0.62);
+  text-decoration: none;
+  transition: color 0.22s ease, gap 0.22s ease;
+}
+
+.footer-link:hover {
+  color: #ffffff;
+  gap: 10px;
+}
+
+.footer-link-arrow {
+  font-size: 16px;
+  color: var(--primary);
+  line-height: 1;
+  transition: transform 0.22s ease;
+}
+
+.footer-link:hover .footer-link-arrow {
+  transform: translateX(2px);
+}
+
+/* ── Contact list ── */
+.footer-contact-list {
+  list-style: none;
+  margin: 0 0 28px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.footer-contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.65);
+  text-decoration: none;
+  line-height: 1.5;
+  transition: color 0.22s ease;
+}
+
+.footer-contact-item:hover {
+  color: #ffffff;
+}
+
+.footer-contact-addr {
+  align-items: flex-start;
+}
+
+.footer-contact-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  background: rgba(0,68,235,0.25);
+  border: 1px solid rgba(0,68,235,0.3);
+  flex-shrink: 0;
+  margin-top: -1px;
+  transition: background 0.22s ease;
+}
+
+.footer-contact-item:hover .footer-contact-icon {
+  background: rgba(0,68,235,0.45);
+}
+
+/* ── Social icons ── */
+.footer-socials {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.footer-social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.footer-social-icon:hover {
+  background: linear-gradient(135deg, #0044EB, #b83bf1);
+  border-color: transparent;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,68,235,0.4);
+}
+
+/* ── Bottom bar ── */
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding: 20px 0;
+  background: rgba(0,0,0,0.25);
+}
+
+.footer-bottom-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-copyright {
+  margin: 0;
+  font-size: 13.5px;
+  color: rgba(255,255,255,0.45);
+}
+
+.footer-bottom-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 24px;
+}
+
+.footer-bottom-links a {
+  font-size: 13px;
+  color: rgba(255,255,255,0.45);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-bottom-links a:hover {
+  color: rgba(255,255,255,0.85);
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .footer-body > .footer-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+  .footer-col-brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-body > .footer-container {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .footer-body {
+    padding: 48px 0 36px;
+  }
+  .footer-bottom-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+  .footer-bottom-links {
+    gap: 16px;
+  }
+}
+

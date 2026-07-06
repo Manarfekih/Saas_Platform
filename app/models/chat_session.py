@@ -1,10 +1,12 @@
 from sqlalchemy import (
     Column,
     Integer,
-    ForeignKey
+    ForeignKey,
+    Enum as SqlEnum,
 )
 
 from app.db.database import Base
+from app.models.chat_type import ChatType
 
 
 class ChatSession(Base):
@@ -29,5 +31,11 @@ class ChatSession(Base):
     document_id = Column(
         Integer,
         ForeignKey("documents.id"),
-        nullable=False
+        nullable=True,
+    )
+
+    chat_type = Column(
+        SqlEnum(ChatType),
+        nullable=False,
+        default=ChatType.DOCUMENT,
     )

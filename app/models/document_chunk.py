@@ -1,21 +1,69 @@
-from sqlalchemy import Column, Integer, ForeignKey, Text, UniqueConstraint
+from sqlalchemy import (
+    Column,
+    Integer,
+    ForeignKey,
+    Text,
+    Index
+)
+
 from pgvector.sqlalchemy import Vector
+
 from app.db.database import Base
 
 
-class DocumentChunk(Base):
-    __tablename__ = "document_chunks"
 
-    __table_args__ = (
-        UniqueConstraint("document_id", "chunk_index"),
+class DocumentChunk(Base):
+
+
+    __tablename__="document_chunks"
+
+
+
+    id=Column(
+        Integer,
+        primary_key=True
     )
 
-    id = Column(Integer, primary_key=True, index=True)
 
-    document_id = Column(Integer, ForeignKey("documents.id"), nullable=False)
 
-    chunk_index = Column(Integer, nullable=False)
+    document_id=Column(
+        Integer,
+        ForeignKey(
+            "documents.id"
+        ),
+        nullable=False
+    )
 
-    content = Column(Text, nullable=False)
 
-    embedding = Column(Vector(768), nullable=True)
+
+    chunk_index=Column(
+        Integer,
+        nullable=False
+    )
+
+
+
+    content=Column(
+        Text,
+        nullable=False
+    )
+
+
+
+    embedding=Column(
+        Vector(768)
+    )
+
+
+
+Index(
+    "chunk_embedding_index",
+
+    DocumentChunk.embedding,
+
+    postgresql_using="ivfflat",
+
+    postgresql_with={
+        "lists":100
+    }
+)

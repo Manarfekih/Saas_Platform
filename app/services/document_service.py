@@ -3,8 +3,12 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from app.models.document import Document
+from app.models.chat_session import ChatSession
+from app.models.message import Message
+from app.models.document_chunk import DocumentChunk
 
-UPLOAD_DIR = "/app/uploads" 
+UPLOAD_DIR = "/app/uploads"
+
 
 def save_file(file, user_id: int):
 
@@ -12,8 +16,8 @@ def save_file(file, user_id: int):
 
     os.makedirs(user_folder, exist_ok=True)
 
-    # safer filename (avoid spaces/issues in Docker/Linux)
-    safe_filename = file.filename.replace(" ", "_")
+    # Keep only the base filename to avoid path traversal or nested paths.
+    safe_filename = os.path.basename(file.filename).replace(" ", "_")
 
     file_path = os.path.join(user_folder, safe_filename)
 
@@ -64,6 +68,28 @@ def get_user_document(db: Session, document_id: int, user_id: int):
 
 
 def delete_document(db: Session, document: Document):
+
+    # Remove dependent chat data first to satisfy FK constraints.
+    session_ids = [
+        row[0]
+        for row in (
+            db.query(ChatSession.id)
+            .filter(ChatSession.document_id == document.id)
+            .all()
+        )
+    ]
+
+    if session_ids:
+        db.query(Message).filter(Message.session_id.in_(session_ids)).delete(
+            synchronize_session=False
+        )
+        db.query(ChatSession).filter(ChatSession.id.in_(session_ids)).delete(
+            synchronize_session=False
+        )
+
+    db.query(DocumentChunk).filter(
+        DocumentChunk.document_id == document.id
+    ).delete(synchronize_session=False)
 
     if os.path.exists(document.file_path):
         os.remove(document.file_path)

@@ -1,6 +1,8 @@
 import os
 from celery import Celery
 from dotenv import load_dotenv
+from app.models import User, Document, DocumentChunk, ChatSession, Message  # noqa: F401
+from app.db.init_db import init_db
 
 load_dotenv()
 
@@ -24,7 +26,4 @@ celery_app.conf.update(
 # Initialize database on worker startup
 @celery_app.on_after_configure.connect
 def setup_db(sender, **kwargs):
-    # Import all models first to register them with SQLAlchemy Base
-    from app.models import User, Document, DocumentChunk, ChatSession, Message  # noqa: F401
-    from app.db.init_db import init_db
     init_db()

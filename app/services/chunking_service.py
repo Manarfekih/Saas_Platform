@@ -12,6 +12,11 @@ MIN_CHUNK_LENGTH = 40
 NEAR_DUPLICATE_THRESHOLD = 0.88
 
 
+MAX_SECTION_CHUNK_SIZE = 900
+
+HEADING_PATTERN = re.compile(r"^#{2,3}\s+.+$", flags=re.MULTILINE)
+
+
 def _normalize_text(text: str) -> str:
     return " ".join(text.split()).lower()
 
@@ -35,6 +40,11 @@ def _clean_extracted_text(text: str) -> str:
             continue
 
         normalized_line = _normalize_text(line)
+
+        
+        if line.startswith("#"):
+            cleaned_lines.append(line)
+            continue
 
         if re.fullmatch(
             r"(?:page\s*)?\d+",
@@ -92,6 +102,49 @@ def _is_duplicate(
     return False
 
 
+def _split_by_sections(text: str) -> list[str]:
+    
+
+    matches = list(HEADING_PATTERN.finditer(text))
+
+    if not matches:
+        return [text]
+
+    sections = []
+
+   
+    if matches[0].start() > 0:
+        preamble = text[: matches[0].start()].strip()
+        if preamble:
+            sections.append(preamble)
+
+    for i, match in enumerate(matches):
+        start = match.start()
+        end = matches[i + 1].start() if i + 1 < len(matches) else len(text)
+        section = text[start:end].strip()
+
+        if section:
+            sections.append(section)
+
+    return sections
+
+
+def combine_with_classification(
+    raw_text: str,
+    classified_block: str,
+) -> str:
+    
+
+    if not classified_block:
+        return raw_text
+
+    return (
+        f"{raw_text}\n\n"
+        f"## Structured Summary\n"
+        f"{classified_block}"
+    )
+
+
 def chunk_text(
     text: str,
     chunk_size: int = DEFAULT_CHUNK_SIZE,
@@ -117,10 +170,19 @@ def chunk_text(
         ],
     )
 
-    raw_chunks = splitter.split_text(cleaned_text)
+    raw_chunks: list[str] = []
+
+   
+    for section in _split_by_sections(cleaned_text):
+
+        section_tokens_estimate = len(section) // 4  
+
+        if section_tokens_estimate <= MAX_SECTION_CHUNK_SIZE:
+            raw_chunks.append(section)
+        else:
+            raw_chunks.extend(splitter.split_text(section))
 
     logger.info(f"RAW CHUNKS: {len(raw_chunks)}")
-
 
     for i, c in enumerate(raw_chunks):
         logger.info(f"Chunk {i}: {len(c)} characters")

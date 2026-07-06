@@ -3,6 +3,8 @@ from sqlalchemy.orm import Session
 
 from app.models.chat_session import ChatSession
 from app.models.message import Message
+from app.models.chat_type import ChatType
+
 
 
 def save_message(
@@ -31,15 +33,49 @@ def save_message(
     return message
 
 
+
+
 def create_chat_session(
     db: Session,
     user_id: int,
-    document_id: int,
+    chat_type: ChatType,
+    document_id: int | None = None,
 ):
+    
+    query = (
+        db.query(ChatSession)
+        .filter(ChatSession.user_id == user_id)
+        .filter(ChatSession.chat_type == chat_type)
+    )
+
+    if chat_type == ChatType.DOCUMENT:
+        query = query.filter(ChatSession.document_id == document_id)
+    else:
+        query = query.filter(ChatSession.document_id.is_(None))
+
+    existing = query.first()
+
+    if existing:
+        return existing
+
+    session = ChatSession(
+        user_id=user_id,
+        document_id=document_id,
+        chat_type=chat_type,
+    )
+
+    db.add(session)
+    db.commit()
+    db.refresh(session)
+
+    return session
+
+
+def create_global_chat_session(db: Session, user_id: int):
     existing = (
         db.query(ChatSession)
         .filter(ChatSession.user_id == user_id)
-        .filter(ChatSession.document_id == document_id)
+        .filter(ChatSession.chat_type == ChatType.GLOBAL)
         .first()
     )
 
@@ -48,7 +84,8 @@ def create_chat_session(
 
     session = ChatSession(
         user_id=user_id,
-        document_id=document_id,
+        document_id=None,
+        chat_type=ChatType.GLOBAL,
     )
 
     db.add(session)
@@ -56,11 +93,10 @@ def create_chat_session(
     db.refresh(session)
     return session
 
-
 def get_history(
     db: Session,
     session_id: int,
-    limit: int = 10,
+    limit: int = 4,
 ):
     session = db.query(ChatSession).filter(ChatSession.id == session_id).first()
 
