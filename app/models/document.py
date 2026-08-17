@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, String, ForeignKey, Text, DateTime
+from sqlalchemy import JSON, Column, Integer, String, ForeignKey, Text, DateTime
 from app.db.database import Base
 
 
@@ -28,8 +28,18 @@ class Document(Base):
 
     total_chunks = Column(Integer, default=0)
 
+    summary = Column(JSON, nullable=True)
+
+    summary_file_path = Column(String(512), nullable=True)
+    summary_file_name = Column(String(255), nullable=True)
+    
     created_at = Column(
         DateTime,
         default=datetime.utcnow,
         nullable=False,
     )
+
+
+
+
+

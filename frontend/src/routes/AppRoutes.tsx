@@ -14,6 +14,7 @@ import UploadPage from "../pages/UploadPage";
 import DocumentDetailsPage from "../pages/DocumentDetailsPage";
 import ChatPage from "../pages/ChatPage";
 import GlobalChatPage from "../pages/GlobalChatPage";
+import ProfileSettingsPage from "../pages/ProfileSettingsPage";
 
 
 import Layout from "../components/Layout";
@@ -59,6 +60,11 @@ export default function AppRoutes() {
           <Route
             path="/upload"
             element={<UploadPage />}
+          />
+
+          <Route
+            path="/profile"
+            element={<ProfileSettingsPage />}
           />
 
           <Route

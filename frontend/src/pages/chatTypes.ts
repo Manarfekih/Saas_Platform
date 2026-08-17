@@ -1,3 +1,4 @@
+// src/pages/chatTypes.ts
 
 export type ListItem = {
   title: string;
@@ -41,20 +42,27 @@ export type StructuredAnswer =
   | OverviewAnswer
   | FactAnswer;
 
+export type Source = {
+  chunk_id: number;
+  chunk_index: number;
+  page_number?: number | null;
+  content?: string;
+  distance: number;
+  document_id?: number;
+  filename?: string;
+};
+
 export type ChatResponse = {
   document_id: number;
   session_id?: number;
   answer: StructuredAnswer;
-  sources: {
-    chunk_id: number;
-    chunk_index: number;
-    distance: number;
-  }[];
+  sources: Source[];
 };
 
 export type Message = {
   role: "user" | "assistant";
   content: string | StructuredAnswer;
+  sources?: Source[];
 };
 
 export type ChatHistoryMessage = {
@@ -66,4 +74,3 @@ export type ChatHistoryResponse = {
   session_id: number;
   messages: ChatHistoryMessage[];
 };
-

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../api/auth";
 import { useAuth } from "../context/AuthContext";
+import DeleteConfirmationModal from "../components/documents/DeleteConfirmationModal";
 
 type DashboardStats = {
   documents: number;
@@ -59,13 +60,18 @@ function formatUploadDate(value?: string | null) {
 }
 
 export default function DashboardPage() {
-  const { token, userEmail } = useAuth();
+  const { token, userName } = useAuth();
 
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState<DashboardStats>({
     documents: 0, processed: 0, in_queue: 0, failed: 0, chats: 0,
   });
   const [documents, setDocuments] = useState<DocumentType[]>([]);
+  
+  // Delete modal state
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deletingDoc, setDeletingDoc] = useState<DocumentType | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     if (!token) { setLoading(false); return; }
@@ -82,11 +88,20 @@ export default function DashboardPage() {
       .finally(() => setLoading(false));
   }, [token]);
 
-  async function handleDelete(id: number) {
+  async function handleDelete(doc: DocumentType) {
     if (!token) return;
-    if (!window.confirm("Are you sure you want to delete this document?")) return;
+
+    setIsDeleting(true);
     try {
-      await api.delete(`/documents/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+      await api.delete(`/documents/${doc.id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      // Update the dashboard immediately so the deleted row disappears even if refresh is slow.
+      setDocuments((prev) => prev.filter((item) => item.id !== doc.id));
+      setDeleteModalOpen(false);
+      setDeletingDoc(null);
+
       const headers = { Authorization: `Bearer ${token}` };
       const [statsRes, docsRes] = await Promise.all([
         api.get("/dashboard/stats", { headers }),
@@ -96,6 +111,20 @@ export default function DashboardPage() {
       setDocuments(docsRes.data);
     } catch (error) {
       console.error("Delete error:", error);
+    } finally {
+      setIsDeleting(false);
+    }
+  }
+
+  function openDeleteModal(doc: DocumentType) {
+    setDeletingDoc(doc);
+    setDeleteModalOpen(true);
+  }
+
+  function closeDeleteModal() {
+    if (!isDeleting) {
+      setDeleteModalOpen(false);
+      setDeletingDoc(null);
     }
   }
 
@@ -162,7 +191,7 @@ export default function DashboardPage() {
   return (
     <div style={{ maxWidth: "1200px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "28px" }}>
 
-      {/* ── Header ── */}
+      {/* Header */}
       <div className="animate-fadeInDown">
         <div style={{
           display: "inline-flex", alignItems: "center", gap: "8px",
@@ -179,16 +208,14 @@ export default function DashboardPage() {
           Live Dashboard
         </div>
         <h1 style={{ fontSize: "28px", fontWeight: 800, color: "var(--dark)", margin: 0, lineHeight: 1.2 }}>
-          Welcome back{userEmail && (
-            <span style={{ color: "var(--primary)" }}>, {userEmail.split("@")[0]}</span>
-          )}
+          Welcome back, {userName}!
         </h1>
         <p style={{ fontSize: "14px", color: "var(--body-color)", margin: "6px 0 0", opacity: 0.75 }}>
           Here's an overview of your AI document workspace.
         </p>
       </div>
 
-      {/* ── Stats Grid ── */}
+      {/* Stats Grid */}
       {loading ? (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "18px" }}>
           {[...Array(5)].map((_, i) => (
@@ -203,7 +230,7 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* ── Recent Documents Table ── */}
+      {/* Recent Documents Table */}
       <div className="card-itgate" style={{ overflow: "hidden" }}>
         <div style={{
           padding: "20px 24px",
@@ -303,7 +330,7 @@ export default function DashboardPage() {
                             View
                           </Link>
                           <button
-                            onClick={() => handleDelete(doc.id)}
+                            onClick={() => openDeleteModal(doc)}
                             style={{
                               padding: "7px 16px", fontSize: "12px",
                               fontWeight: 600, letterSpacing: "0.4px",
@@ -335,7 +362,7 @@ export default function DashboardPage() {
         )}
       </div>
 
-      {/* ── Quick Actions ── */}
+      {/* Quick Actions */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "18px" }}>
         <Link
           to="/upload"
@@ -404,6 +431,18 @@ export default function DashboardPage() {
         </Link>
       </div>
 
+      {/* Delete Confirmation Modal */}
+      <DeleteConfirmationModal
+        isOpen={deleteModalOpen}
+        onClose={closeDeleteModal}
+        onConfirm={() => {
+          if (deletingDoc) {
+            void handleDelete(deletingDoc);
+          }
+        }}
+        filename={deletingDoc?.filename || ""}
+        isDeleting={isDeleting}
+      />
     </div>
   );
 }

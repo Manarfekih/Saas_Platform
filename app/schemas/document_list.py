@@ -1,4 +1,4 @@
-from datetime import datetime
+﻿from datetime import datetime
 
 from pydantic import BaseModel
 
@@ -8,8 +8,10 @@ class DocumentListOut(BaseModel):
     filename: str
     status: str
     doc_type: str | None = None
+    page_count: int | None = None
     created_at: datetime
     error_message: str | None = None
 
     class Config:
         from_attributes = True
+

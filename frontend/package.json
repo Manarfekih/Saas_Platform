@@ -12,9 +12,12 @@
   "dependencies": {
     "@tanstack/react-query": "^5.101.0",
     "axios": "^1.18.0",
+    "pdfjs-dist": "^6.1.200",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
-    "react-router-dom": "^7.18.0"
+    "react-markdown": "^10.1.0",
+    "react-router-dom": "^7.18.0",
+    "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

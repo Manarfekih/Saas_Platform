@@ -1,13 +1,13 @@
-from fastapi import APIRouter, Depends, HTTPException
+﻿from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from app.db.session import get_db
 from app.core.deps import get_current_user
+from app.db.session import get_db
 from app.models.chat_session import ChatSession
 from app.models.chat_type import ChatType
+from app.services.agent.agent_service import agent_answer_global
 from app.services.chat_memory_service import create_global_chat_session, get_history
-from app.services.agent_service import agent_answer_global
 
 router = APIRouter()
 

@@ -1,3 +1,4 @@
+import importlib
 import os
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
@@ -6,8 +7,81 @@ from app.models.document import Document
 from app.models.chat_session import ChatSession
 from app.models.message import Message
 from app.models.document_chunk import DocumentChunk
-
+from app.services.summary import delete_summary_file
 UPLOAD_DIR = "/app/uploads"
+
+_PAGE_MARKER_PATTERN = __import__("re").compile(r"\[\[PAGE\s+(\d+)\]\]")
+
+
+def _count_pages_from_text(extracted_text: str | None):
+    if not extracted_text:
+        return None
+
+    matches = _PAGE_MARKER_PATTERN.findall(extracted_text)
+    if matches:
+        try:
+            return max(int(match) for match in matches)
+        except ValueError:
+            return None
+
+    return None
+
+
+def get_page_count(file_path: str, extracted_text: str | None = None):
+    text_count = _count_pages_from_text(extracted_text)
+    if text_count:
+        return text_count
+
+    ext = os.path.splitext(file_path.lower())[1].lstrip(".")
+
+    if ext == "pdf":
+        try:
+            pdf2image = importlib.import_module("pdf2image")
+            pdfinfo_from_path = getattr(pdf2image, "pdfinfo_from_path")
+
+            info = pdfinfo_from_path(file_path)
+            pages = info.get("Pages")
+            return int(pages) if pages is not None else None
+        except Exception:
+            return None
+
+    if ext == "pptx":
+        try:
+            pptx = importlib.import_module("pptx")
+            Presentation = getattr(pptx, "Presentation")
+
+            return len(Presentation(file_path).slides)
+        except Exception:
+            return None
+
+    if ext in {"txt", "docx"}:
+        return 1
+
+    return None
+
+
+def sync_document_page_count(db: Session, document: Document):
+    
+    derived_count = get_page_count(document.file_path, getattr(document, "extracted_text", None))
+    if derived_count:
+        setattr(document, "page_count", derived_count)
+        return derived_count
+
+    page_count = (
+        db.query(DocumentChunk.page_number)
+        .filter(DocumentChunk.document_id == document.id)
+        .filter(DocumentChunk.page_number.isnot(None))
+        .order_by(DocumentChunk.page_number.desc())
+        .limit(1)
+        .scalar()
+    )
+
+    if page_count:
+        setattr(document, "page_count", int(page_count))
+        return int(page_count)
+
+    setattr(document, "page_count", None)
+    return None
 
 
 def save_file(file, user_id: int):
@@ -16,7 +90,6 @@ def save_file(file, user_id: int):
 
     os.makedirs(user_folder, exist_ok=True)
 
-    # Keep only the base filename to avoid path traversal or nested paths.
     safe_filename = os.path.basename(file.filename).replace(" ", "_")
 
     file_path = os.path.join(user_folder, safe_filename)
@@ -69,7 +142,6 @@ def get_user_document(db: Session, document_id: int, user_id: int):
 
 def delete_document(db: Session, document: Document):
 
-    # Remove dependent chat data first to satisfy FK constraints.
     session_ids = [
         row[0]
         for row in (
@@ -90,6 +162,8 @@ def delete_document(db: Session, document: Document):
     db.query(DocumentChunk).filter(
         DocumentChunk.document_id == document.id
     ).delete(synchronize_session=False)
+
+    delete_summary_file(document)
 
     if os.path.exists(document.file_path):
         os.remove(document.file_path)
@@ -123,3 +197,20 @@ def mark_failed(db: Session, document_id: int):
     })
 
     db.commit()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -12,10 +12,8 @@ def init_db():
     for _ in range(10):
         try:
             with engine.begin() as conn:
-                # Test the connection
                 conn.execute(text("SELECT 1"))
 
-                # Ensure pgvector exists
                 conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
 
             print("Database connected successfully.")

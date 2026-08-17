@@ -68,10 +68,8 @@ export default function UploadModal() {
       const { document } = response.data;
       setIsOpen(false);
       
-      // Redirect to the new document's page to track parsing/ingestion progress
       navigate(`/documents/${document.id}`);
       
-      // Force refresh or trigger list reload
       window.dispatchEvent(new CustomEvent("refresh-documents"));
     } catch (err: any) {
       console.error(err);
@@ -89,7 +87,6 @@ export default function UploadModal() {
     <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-6 relative overflow-hidden border border-slate-100">
         
-        {/* Header */}
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-bold text-slate-800">Upload Enterprise Asset</h3>
           <button
@@ -139,11 +136,11 @@ export default function UploadModal() {
                     type="file"
                     className="hidden"
                     onChange={handleFileChange}
-                    accept=".pdf,.docx,.txt"
+                    accept=".pdf,.docx,.txt , .png,.jpg,.jpeg,.csv,.xlsx,.pptx"
                   />
                 </label>
               </p>
-              <p className="text-xs text-slate-400">Supports PDF, DOCX, TXT up to 25MB</p>
+              <p className="text-xs text-slate-400">Supports PDF, DOCX, TXT ... up to 25MB</p>
             </div>
           )}
         </div>

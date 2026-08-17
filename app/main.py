@@ -1,17 +1,20 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
 
 from app.db.init_db import init_db
 from app.db.database import engine
+from app.db.schema_validation import validate_runtime_schema
 
 from app.api.auth import router as auth_router
 from app.api.documents import router as documents_router
 from app.api.search import router as search_router
 from app.api.rag import router as rag_router
 from app.api.global_chat import router as global_chat_router
-
 from app.api.dashboard import router as dashboard_router
+
+from app.models.document import Document
 
 app = FastAPI(title="AI SaaS Platform")
 
@@ -28,11 +31,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.mount(
+    "/uploads",
+    StaticFiles(directory="uploads"),
+    name="uploads"
+)
 
 
 @app.on_event("startup")
 def startup():
     init_db()
+    validate_runtime_schema(engine, [Document])
 
 
 # ROUTERS

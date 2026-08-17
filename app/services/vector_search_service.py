@@ -16,17 +16,16 @@ def search_similar_chunks(
     try:
         logger.info(f"Searching document={document_id} threshold={similarity_threshold}")
         
-        # Check if we got a zero vector (embedding failed)
         if all(v == 0 for v in query_embedding):
             logger.warning("Query embedding is zero vector, returning empty results")
             return []
         
-        # First get all chunks for this document that have embeddings
         all_chunks = (
             db.query(
                 DocumentChunk.id.label("chunk_id"),
                 DocumentChunk.document_id.label("document_id"),
                 DocumentChunk.chunk_index.label("chunk_index"),
+                DocumentChunk.page_number.label("page_number"),
                 DocumentChunk.content,
                 DocumentChunk.embedding.cosine_distance(query_embedding).label("distance"),
             )
@@ -35,19 +34,16 @@ def search_similar_chunks(
             .all()
         )
         
-        # Filter by similarity threshold in Python (more flexible)
         filtered_results = []
         for chunk in all_chunks:
             if chunk.distance <= similarity_threshold:
                 filtered_results.append(chunk)
         
-        # Sort by distance and limit
         filtered_results.sort(key=lambda x: x.distance)
         results = filtered_results[:limit]
         
         logger.info(f"Found {len(results)} chunks (filtered from {len(all_chunks)})")
         
-        # If we got no results, relax the threshold and try again
         if not results and all_chunks:
             logger.info("No results with strict threshold, returning top chunks without threshold")
             all_chunks.sort(key=lambda x: x.distance)
@@ -68,9 +64,7 @@ def search_similar_chunks_all_documents(
     limit: int = 10,
     similarity_threshold: float = SIMILARITY_THRESHOLD,
 ):
-    """
-    Search across every processed document that belongs to a user.
-    """
+   
 
     try:
 
@@ -87,6 +81,7 @@ def search_similar_chunks_all_documents(
                 DocumentChunk.id.label("chunk_id"),
                 DocumentChunk.document_id.label("document_id"),
                 DocumentChunk.chunk_index.label("chunk_index"),
+                DocumentChunk.page_number.label("page_number"),
                 DocumentChunk.content,
                 DocumentChunk.embedding.cosine_distance(query_embedding).label(
                     "distance"
@@ -124,3 +119,5 @@ def search_similar_chunks_all_documents(
     except Exception as e:
         logger.error(str(e), exc_info=True)
         raise
+
+

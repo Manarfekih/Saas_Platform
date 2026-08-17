@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+﻿from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 
 from app.db.database import SessionLocal
@@ -17,11 +17,9 @@ def search(
     document_id: int,
     request: SearchRequest,
 ):
-
     db = SessionLocal()
 
     try:
-
         results = retrieve_chunks(
             db=db,
             document_id=document_id,

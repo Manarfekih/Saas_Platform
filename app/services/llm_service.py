@@ -1,4 +1,4 @@
-﻿import os
+import os
 import logging
 from functools import lru_cache
 
@@ -19,8 +19,8 @@ def get_llm():
         model=os.getenv("OLLAMA_MODEL", "qwen3:8b"),
         base_url=os.getenv("OLLAMA_URL", "http://ollama:11434"),
         temperature=0,
-        num_ctx=4096,
-        num_predict=1024,
+        num_ctx=8192,
+        num_predict=2048,
         model_kwargs={
             "think": False
         }

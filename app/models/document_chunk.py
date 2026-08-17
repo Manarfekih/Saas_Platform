@@ -1,69 +1,32 @@
-from sqlalchemy import (
-    Column,
-    Integer,
-    ForeignKey,
-    Text,
-    Index
-)
-
+from sqlalchemy import Column, Integer, ForeignKey, Text, Index
 from pgvector.sqlalchemy import Vector
-
 from app.db.database import Base
-
 
 
 class DocumentChunk(Base):
 
+    __tablename__ = "document_chunks"
 
-    __tablename__="document_chunks"
+    id = Column(Integer, primary_key=True)
 
-
-
-    id=Column(
+    document_id = Column(
         Integer,
-        primary_key=True
+        ForeignKey("documents.id"),
+        nullable=False,
     )
 
+    chunk_index = Column(Integer, nullable=False)
 
+    page_number = Column(Integer, nullable=True)
 
-    document_id=Column(
-        Integer,
-        ForeignKey(
-            "documents.id"
-        ),
-        nullable=False
-    )
+    content = Column(Text, nullable=False)
 
-
-
-    chunk_index=Column(
-        Integer,
-        nullable=False
-    )
-
-
-
-    content=Column(
-        Text,
-        nullable=False
-    )
-
-
-
-    embedding=Column(
-        Vector(768)
-    )
-
+    embedding = Column(Vector(768))
 
 
 Index(
     "chunk_embedding_index",
-
     DocumentChunk.embedding,
-
     postgresql_using="ivfflat",
-
-    postgresql_with={
-        "lists":100
-    }
+    postgresql_with={"lists": 100},
 )

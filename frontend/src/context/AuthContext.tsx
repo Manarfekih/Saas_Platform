@@ -3,6 +3,7 @@ import {
   useContext,
   useState,
   useEffect,
+  useCallback,
 } from "react";
 import type { ReactNode } from "react";
 import api from "../api/auth";
@@ -10,8 +11,11 @@ import api from "../api/auth";
 type AuthContextType = {
   token: string | null;
   userEmail: string | null;
+  userName: string | null;
+  profileImage: string | null;
   login: (token: string) => void;
   logout: () => void;
+  refreshUser: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType>(
@@ -27,27 +31,39 @@ export const AuthProvider = ({
     localStorage.getItem("token")
   );
   const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string | null>(null);
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+
+  const fetchUser = useCallback(async () => {
+    if (!token) {
+      setUserEmail(null);
+      setUserName(null);
+      setProfileImage(null);
+      return;
+    }
+
+    try {
+      const res = await api.get("/auth/me", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setUserEmail(res.data.email);
+      setUserName(res.data.name);
+      setProfileImage(res.data.profile_image ?? null);
+    } catch {
+      // Token is invalid or expired - log out
+      setToken(null);
+      localStorage.removeItem("token");
+      setUserEmail(null);
+      setUserName(null);
+      setProfileImage(null);
+    }
+  }, [token]);
 
   // Fetch user info when token changes
   useEffect(() => {
-    if (!token) {
-      setUserEmail(null);
-      return;
-    }
-    api
-      .get("/auth/me", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => {
-        setUserEmail(res.data.email);
-      })
-      .catch(() => {
-        // Token is invalid or expired — log out
-        setToken(null);
-        localStorage.removeItem("token");
-        setUserEmail(null);
-      });
-  }, [token]);
+    void fetchUser();
+  }, [fetchUser]);
 
   const login = (newToken: string) => {
     localStorage.setItem("token", newToken);
@@ -58,6 +74,8 @@ export const AuthProvider = ({
     localStorage.removeItem("token");
     setToken(null);
     setUserEmail(null);
+    setUserName(null);
+    setProfileImage(null);
   };
 
   return (
@@ -65,8 +83,11 @@ export const AuthProvider = ({
       value={{
         token,
         userEmail,
+        userName,
+        profileImage,
         login,
         logout,
+        refreshUser: fetchUser,
       }}
     >
       {children}

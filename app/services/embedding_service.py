@@ -38,7 +38,6 @@ class EmbeddingService:
             return embedding
         except Exception as e:
             logger.error(f"Embedding error: {str(e)}")
-            # Return zero vector on error to avoid crashing
             return [0.0] * 768
 
     def embed_many(self, texts: list[str]) -> list[list[float]]:

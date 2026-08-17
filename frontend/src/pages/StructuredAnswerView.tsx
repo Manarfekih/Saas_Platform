@@ -1,3 +1,5 @@
+// src/pages/StructuredAnswerView.tsx
+
 import type {
   StructuredAnswer,
   ListAnswer,
@@ -6,11 +8,9 @@ import type {
   FactAnswer,
 } from "./chatTypes";
 
-
 function FactAnswerView({ answer }: { answer: FactAnswer }) {
   return <p className="text-[15px] leading-relaxed">{answer.text}</p>;
 }
-
 
 function CountAnswerView({ answer }: { answer: CountAnswer }) {
   return (
@@ -24,7 +24,7 @@ function CountAnswerView({ answer }: { answer: CountAnswer }) {
         </span>
       </div>
 
-      {answer.items.length > 0 && (
+      {answer.items && answer.items.length > 0 && (
         <ul className="mt-3 space-y-1.5">
           {answer.items.map((item, i) => (
             <li
@@ -45,7 +45,6 @@ function CountAnswerView({ answer }: { answer: CountAnswer }) {
     </div>
   );
 }
-
 
 function ListAnswerView({ answer }: { answer: ListAnswer }) {
   return (
@@ -100,7 +99,6 @@ function ListAnswerView({ answer }: { answer: ListAnswer }) {
   );
 }
 
-
 function OverviewAnswerView({ answer }: { answer: OverviewAnswer }) {
   return (
     <div>
@@ -108,7 +106,7 @@ function OverviewAnswerView({ answer }: { answer: OverviewAnswer }) {
         {answer.summary}
       </p>
 
-      {answer.sections.length > 0 && (
+      {answer.sections && answer.sections.length > 0 && (
         <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
           {answer.sections.map((section, i) => (
             <div
@@ -128,7 +126,6 @@ function OverviewAnswerView({ answer }: { answer: OverviewAnswer }) {
     </div>
   );
 }
-
 
 export default function StructuredAnswerView({
   answer,
