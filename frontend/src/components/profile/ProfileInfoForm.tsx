@@ -39,7 +39,6 @@ export default function ProfileInfoForm({
     onSubmit(e);
   };
 
-  // Dynamic member since (you can get this from backend)
   const memberSince = new Date().toLocaleDateString('en-US', {
     month: 'long',
     year: 'numeric'
@@ -186,7 +185,7 @@ export default function ProfileInfoForm({
             <span className="form-field-hint">We'll send notifications to this email</span>
           </div>
 
-          {/* Account Info - Read Only */}
+          {/* Account Info */}
           <div className="form-field-group form-field-group-full">
             <div className="form-field-account-info">
               <div className="account-info-item">

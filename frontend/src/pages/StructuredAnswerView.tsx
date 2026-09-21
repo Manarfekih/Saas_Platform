@@ -1,5 +1,3 @@
-// src/pages/StructuredAnswerView.tsx
-
 import type {
   StructuredAnswer,
   ListAnswer,

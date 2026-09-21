@@ -1,5 +1,4 @@
-﻿// src/pages/DocumentDetailsPage.tsx
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import api from "../api/auth";
 import { useAuth } from "../context/AuthContext";

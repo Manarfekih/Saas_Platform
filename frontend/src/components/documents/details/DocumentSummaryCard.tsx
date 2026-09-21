@@ -223,16 +223,8 @@ export default function DocumentSummaryCard({
             {summary.statistics && (
               <div className="resume-quick-stats">
                 
-                <div className="quick-stat-divider"></div>
-                <div className="quick-stat">
-                  <span className="quick-stat-value">{summary.statistics.word_count || 0}</span>
-                  <span className="quick-stat-label">Words</span>
-                </div>
-                <div className="quick-stat-divider"></div>
-                <div className="quick-stat">
-                  <span className="quick-stat-value">{summary.statistics.total_pages || 0}</span>
-                  <span className="quick-stat-label">Pages</span>
-                </div>
+                
+                
                 {generatedAt && (
                   <>
                     <div className="quick-stat-divider"></div>

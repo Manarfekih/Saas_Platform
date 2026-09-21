@@ -1,5 +1,3 @@
-// src/utils/passwordUtils.ts
-
 export interface PasswordStrength {
   label: string;
   width: string;

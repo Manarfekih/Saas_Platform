@@ -2,7 +2,12 @@
 You are an expert document analyst.
 Create a clean, exhaustive JSON summary using the document coverage below.
 
-Return only valid JSON. No markdown fences, no explanations, no extra text.
+CRITICAL OUTPUT RULES:
+- Return exactly one valid JSON object.
+- Your first character must be { and your last character must be }.
+- Do not write markdown, headings, bullet lists outside JSON, code fences,
+  explanations, or any text before/after the JSON.
+- Use only information explicitly present in the source.
 
 Required shape:
 {
@@ -26,7 +31,6 @@ Required shape:
 }
 
 Guidelines:
-- Use only information that is explicitly present in the source.
 - Cover the document broadly and do not ignore later pages or lower sections.
 - Prefer a concise, natural summary over template-like wording.
 - Keep section names short and factual.
@@ -40,6 +44,9 @@ Guidelines:
 
 Document type:
 {document_type}
+
+Filename:
+{filename}
 
 Source coverage:
 {text}

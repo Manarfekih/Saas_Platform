@@ -68,8 +68,7 @@ def export_summary_to_markdown(summary: Dict[str, Any]) -> str:
     statistics = summary.get("statistics") or {}
     if statistics:
         lines.append("## Metadata")
-        if statistics.get("total_pages"):
-            lines.append(f"- Total pages: {statistics['total_pages']}")
+        
         if statistics.get("generated_at"):
             lines.append(f"- Generated at: {statistics['generated_at']}")
         lines.append("")

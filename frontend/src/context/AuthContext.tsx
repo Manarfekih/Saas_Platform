@@ -51,7 +51,7 @@ export const AuthProvider = ({
       setUserName(res.data.name);
       setProfileImage(res.data.profile_image ?? null);
     } catch {
-      // Token is invalid or expired - log out
+      // if Token is invalid or expired -> log out
       setToken(null);
       localStorage.removeItem("token");
       setUserEmail(null);

@@ -1,6 +1,4 @@
-﻿// src/pages/ChatPage.tsx
-
-import { useEffect, useRef, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import api from "../api/auth";
 import { useAuth } from "../context/AuthContext";

@@ -120,7 +120,6 @@ def update_me(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    # If the user wants to change their password, verify current first
     if payload.new_password:
         if not payload.current_password:
             raise HTTPException(

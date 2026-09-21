@@ -1,0 +1,934 @@
+{
+  "summary": {
+    "case_count": 14,
+    "retrieval_hit_rate": 1,
+    "retrieval_recall": 1.0,
+    "retrieval_mrr": 0.8809523809523809,
+    "answer_contains_score": 0.8333333333333334,
+    "answer_token_f1": 0.674839199332203,
+    "answer_llm_judge_score": 0.9642857142857143
+  },
+  "results": [
+    {
+      "id": "cv-contact-location",
+      "document_id": 107,
+      "question": "Where is Manar El Fakih Romdhane located?",
+      "expected_answer": "Manar El Fakih Romdhane is located in Sousse, Tunisia.",
+      "expected_chunk_ids": [
+        366
+      ],
+      "expected_chunk_indexes": [
+        0
+      ],
+      "answer_contains": [
+        "Sousse",
+        "Tunisia"
+      ],
+      "retrieval": {
+        "retrieved_chunk_ids": [
+          366,
+          368,
+          374,
+          371,
+          367
+        ],
+        "retrieved_chunk_indexes": [
+          0,
+          2,
+          8,
+          5,
+          1
+        ],
+        "hit": true,
+        "recall": 1.0,
+        "mrr": 1.0
+      },
+      "answer": {
+        "raw_answer": "{\"type\": \"fact\", \"text\": \"Manar El Fakih Romdhane is located in Sousse, Tunisia.\"}",
+        "structured_answer": {
+          "type": "fact",
+          "text": "Manar El Fakih Romdhane is located in Sousse, Tunisia."
+        },
+        "answer_text": "Manar El Fakih Romdhane is located in Sousse, Tunisia.",
+        "contains_score": 1.0,
+        "token_f1": 1.0,
+        "llm_judge": {
+          "score": 1.0,
+          "reason": "The actual answer correctly states that Manar El Fakih Romdhane is located in Sousse, Tunisia, which matches the expected answer exactly."
+        }
+      }
+    },
+    {
+      "id": "cv-profile-target",
+      "document_id": 107,
+      "question": "What type of internship is Manar seeking?",
+      "expected_answer": "Manar is seeking a summer internship in AI or Data Science.",
+      "expected_chunk_ids": [
+        367
+      ],
+      "expected_chunk_indexes": [
+        1
+      ],
+      "answer_contains": [
+        "summer internship",
+        "AI",
+        "Data Science"
+      ],
+      "retrieval": {
+        "retrieved_chunk_ids": [
+          367,
+          366,
+          368,
+          372,
+          374
+        ],
+        "retrieved_chunk_indexes": [
+          1,
+          0,
+          2,
+          6,
+          8
+        ],
+        "hit": true,
+        "recall": 1.0,
+        "mrr": 1.0
+      },
+      "answer": {
+        "raw_answer": "{\"type\": \"fact\", \"text\": \"Manar is seeking a summer internship in AI or Data Science.\"}",
+        "structured_answer": {
+          "type": "fact",
+          "text": "Manar is seeking a summer internship in AI or Data Science."
+        },
+        "answer_text": "Manar is seeking a summer internship in AI or Data Science.",
+        "contains_score": 1.0,
+        "token_f1": 1.0,
+        "llm_judge": {
+          "score": 1.0,
+          "reason": "The actual answer exactly matches the expected answer."
+        }
+      }
+    },
+    {
+      "id": "cv-education-degree",
+      "document_id": 107,
+      "question": "What engineering degree is listed in the education section?",
+      "expected_answer": "The education section lists an Engineering Degree in Data Science Engineering.",
+      "expected_chunk_ids": [
+        368
+      ],
+      "expected_chunk_indexes": [
+        2
+      ],
+      "answer_contains": [
+        "Engineering Degree",
+        "Data Science Engineering"
+      ],
+      "retrieval": {
+        "retrieved_chunk_ids": [
+          368,
+          367,
+          369,
+          374,
+          366
+        ],
+        "retrieved_chunk_indexes": [
+          2,
+          1,
+          3,
+          8,
+          0
+        ],
+        "hit": true,
+        "recall": 1.0,
+        "mrr": 1.0
+      },
+      "answer": {
+        "raw_answer": "{\"type\": \"fact\", \"text\": \"The engineering degree listed in the education section is Data Science Engineering.\"}",
+        "structured_answer": {
+          "type": "fact",
+          "text": "The engineering degree listed in the education section is Data Science Engineering."
+        },
+        "answer_text": "The engineering degree listed in the education section is Data Science Engineering.",
+        "contains_score": 1.0,
+        "token_f1": 0.7826086956521738,
+        "llm_judge": {
+          "score": 1.0,
+          "reason": "The actual answer correctly identifies the engineering degree as 'Data Science Engineering,' which aligns with the key information in the expected answer."
+        }
+      }
+    },
+    {
+      "id": "cv-ai-code-detection-tech",
+      "document_id": 107,
+      "question": "Which technologies were used for the AI Code Detection App?",
+      "expected_answer": "The AI Code Detection App used Flutter, OpenAI API, and Riverpod.",
+      "expected_chunk_ids": [
+        369
+      ],
+      "expected_chunk_indexes": [
+        3
+      ],
+      "answer_contains": [
+        "Flutter",
+        "OpenAI API",
+        "Riverpod"
+      ],
+      "retrieval": {
+        "retrieved_chunk_ids": [
+          369,
+          371,
+          367,
+          370,
+          374
+        ],
+        "retrieved_chunk_indexes": [
+          3,
+          5,
+          1,
+          4,
+          8
+        ],
+        "hit": true,
+        "recall": 1.0,
+        "mrr": 1.0
+      },
+      "answer": {
+        "raw_answer": "{\"type\": \"list\", \"intro\": \"Technologies used for the AI Code Detection App\", \"items\": [{\"title\": \"Flutter\", \"subtitle\": \"Cross-platform mobile framework\", \"tags\": [\"Mobile\"], \"details\": \"Used for building the mobile application interface\"}, {\"title\": \"OpenAI API\", \"subtitle\": \"AI model integration for code analysis\", \"tags\": [\"AI\"], \"details\": \"Provided the capability to classify code as AI-generated or human-written\"}, {\"title\": \"Riverpod\", \"subtitle\": \"State management solution\", \"tags\": [\"State Management\"], \"details\": \"Implemented for scalable state management in the app's architecture\"}]}",
+        "structured_answer": {
+          "type": "list",
+          "intro": "Technologies used for the AI Code Detection App",
+          "items": [
+            {
+              "title": "Flutter",
+              "subtitle": "Cross-platform mobile framework",
+              "tags": [
+                "Mobile"
+              ],
+              "details": "Used for building the mobile application interface"
+            },
+            {
+              "title": "OpenAI API",
+              "subtitle": "AI model integration for code analysis",
+              "tags": [
+                "AI"
+              ],
+              "details": "Provided the capability to classify code as AI-generated or human-written"
+            },
+            {
+              "title": "Riverpod",
+              "subtitle": "State management solution",
+              "tags": [
+                "State Management"
+              ],
+              "details": "Implemented for scalable state management in the app's architecture"
+            }
+          ]
+        },
+        "answer_text": "Technologies used for the AI Code Detection App\n- Flutter: Cross-platform mobile framework\n- OpenAI API: AI model integration for code analysis\n- Riverpod: State management solution",
+        "contains_score": 1.0,
+        "token_f1": 0.5555555555555556,
+        "llm_judge": {
+          "score": 1.0,
+          "reason": "The actual answer correctly lists all the technologies mentioned in the expected answer (Flutter, OpenAI API, Riverpod) and provides additional descriptive context, which does not contradict the expected answer."
+        }
+      }
+    },
+    {
+      "id": "cv-plant-maturity-model",
+      "document_id": 107,
+      "question": "What model was used in the Plant Maturity Detection System?",
+      "expected_answer": "The Plant Maturity Detection System used YOLOv8 with Python and PyTorch.",
+      "expected_chunk_ids": [
+        370
+      ],
+      "expected_chunk_indexes": [
+        4
+      ],
+      "answer_contains": [
+        "YOLOv8",
+        "Python",
+        "PyTorch"
+      ],
+      "retrieval": {
+        "retrieved_chunk_ids": [
+          370,
+          373,
+          374,
+          369,
+          367
+        ],
+        "retrieved_chunk_indexes": [
+          4,
+          7,
+          8,
+          3,
+          1
+        ],
+        "hit": true,
+        "recall": 1.0,
+        "mrr": 1.0
+      },
+      "answer": {
+        "raw_answer": "{\"type\": \"fact\", \"text\": \"The Plant Maturity Detection System used the YOLOv8 model.\"}",
+        "structured_answer": {
+          "type": "fact",
+          "text": "The Plant Maturity Detection System used the YOLOv8 model."
+        },
+        "answer_text": "The Plant Maturity Detection System used the YOLOv8 model.",
+        "contains_score": 0.3333333333333333,
+        "token_f1": 0.7000000000000001,
+        "llm_judge": {
+          "score": 1.0,
+          "reason": "The actual answer correctly identifies YOLOv8 as the model used in the Plant Maturity Detection System, which directly answers the question. The additional details in the expected answer (Python and PyTorch) are not required for the question's specific focus on the model."
+        }
+      }
+    },
+    {
+      "id": "cv-hr-dashboard-stack",
+      "document_id": 107,
+      "question": "What technologies were used for the HR Data Warehouse and BI Dashboard project?",
+      "expected_answer": "The HR Data Warehouse and BI Dashboard used Python, PostgreSQL, and Power BI.",
+      "expected_chunk_ids": [
+        372
+      ],
+      "expected_chunk_indexes": [
+        6
+      ],
+      "answer_contains": [
+        "Python",
+        "PostgreSQL",
+        "Power BI"
+      ],
+      "retrieval": {
+        "retrieved_chunk_ids": [
+          372,
+          374,
+          369,
+          371,
+          367
+        ],
+        "retrieved_chunk_indexes": [
+          6,
+          8,
+          3,
+          5,
+          1
+        ],
+        "hit": true,
+        "recall": 1.0,
+        "mrr": 1.0
+      },
+      "answer": {
+        "raw_answer": "{\"type\": \"list\", \"intro\": \"Technologies used for the HR Data Warehouse and BI Dashboard project:\", \"items\": [{\"title\": \"Python\", \"subtitle\": \"Programming language for data processing and pipeline development\"}, {\"title\": \"PostgreSQL\", \"subtitle\": \"Relational database management system for data storage\"}, {\"title\": \"Power BI\", \"subtitle\": \"Business intelligence tool for dashboard creation\"}]}",
+        "structured_answer": {
+          "type": "list",
+          "intro": "Technologies used for the HR Data Warehouse and BI Dashboard project:",
+          "items": [
+            {
+              "title": "Python",
+              "subtitle": "Programming language for data processing and pipeline development"
+            },
+            {
+              "title": "PostgreSQL",
+              "subtitle": "Relational database management system for data storage"
+            },
+            {
+              "title": "Power BI",
+              "subtitle": "Business intelligence tool for dashboard creation"
+            }
+          ]
+        },
+        "answer_text": "Technologies used for the HR Data Warehouse and BI Dashboard project:\n- Python: Programming language for data processing and pipeline development\n- PostgreSQL: Relational database management system for data storage\n- Power BI: Business intelligence tool for dashboard creation",
+        "contains_score": 1.0,
+        "token_f1": 0.5306122448979591,
+        "llm_judge": {
+          "score": 1.0,
+          "reason": "The actual answer correctly lists all the technologies mentioned in the expected answer (Python, PostgreSQL, Power BI) and provides additional context about their roles, which does not contradict the expected answer."
+        }
+      }
+    },
+    {
+      "id": "cv-programming-languages",
+      "document_id": 107,
+      "question": "What programming languages are listed in the technical skills?",
+      "expected_answer": "The programming languages listed are Python, Java, C, C#, PHP, JavaScript, Dart, and SQL.",
+      "expected_chunk_ids": [
+        374
+      ],
+      "expected_chunk_indexes": [
+        8
+      ],
+      "answer_contains": [
+        "Python",
+        "Java",
+        "C#",
+        "PHP",
+        "JavaScript",
+        "Dart",
+        "SQL"
+      ],
+      "retrieval": {
+        "retrieved_chunk_ids": [
+          368,
+          374,
+          367,
+          369,
+          371
+        ],
+        "retrieved_chunk_indexes": [
+          2,
+          8,
+          1,
+          3,
+          5
+        ],
+        "hit": true,
+        "recall": 1.0,
+        "mrr": 0.5
+      },
+      "answer": {
+        "raw_answer": "{\"type\": \"list\", \"intro\": \"Programming languages listed in the technical skills section include:\", \"items\": [{\"title\": \"Python\", \"subtitle\": null, \"tags\": [\"Programming Languages\"], \"details\": null}, {\"title\": \"Java\", \"subtitle\": null, \"tags\": [\"Programming Languages\"], \"details\": null}, {\"title\": \"C\", \"subtitle\": null, \"tags\": [\"Programming Languages\"], \"details\": null}, {\"title\": \"C#\", \"subtitle\": null, \"tags\": [\"Programming Languages\"], \"details\": null}, {\"title\": \"PHP\", \"subtitle\": null, \"tags\": [\"Programming Languages\"], \"details\": null}, {\"title\": \"JavaScript\", \"subtitle\": null, \"tags\": [\"Programming Languages\"], \"details\": null}, {\"title\": \"Dart\", \"subtitle\": null, \"tags\": [\"Programming Languages\"], \"details\": null}, {\"title\": \"SQL\", \"subtitle\": null, \"tags\": [\"Programming Languages\"], \"details\": null}]}",
+        "structured_answer": {
+          "type": "list",
+          "intro": "Programming languages listed in the technical skills section include:",
+          "items": [
+            {
+              "title": "Python",
+              "subtitle": null,
+              "tags": [
+                "Programming Languages"
+              ],
+              "details": null
+            },
+            {
+              "title": "Java",
+              "subtitle": null,
+              "tags": [
+                "Programming Languages"
+              ],
+              "details": null
+            },
+            {
+              "title": "C",
+              "subtitle": null,
+              "tags": [
+                "Programming Languages"
+              ],
+              "details": null
+            },
+            {
+              "title": "C#",
+              "subtitle": null,
+              "tags": [
+                "Programming Languages"
+              ],
+              "details": null
+            },
+            {
+              "title": "PHP",
+              "subtitle": null,
+              "tags": [
+                "Programming Languages"
+              ],
+              "details": null
+            },
+            {
+              "title": "JavaScript",
+              "subtitle": null,
+              "tags": [
+                "Programming Languages"
+              ],
+              "details": null
+            },
+            {
+              "title": "Dart",
+              "subtitle": null,
+              "tags": [
+                "Programming Languages"
+              ],
+              "details": null
+            },
+            {
+              "title": "SQL",
+              "subtitle": null,
+              "tags": [
+                "Programming Languages"
+              ],
+              "details": null
+            }
+          ]
+        },
+        "answer_text": "Programming languages listed in the technical skills section include:\n- Python\n- Java\n- C\n- C#\n- PHP\n- JavaScript\n- Dart\n- SQL",
+        "contains_score": 1.0,
+        "token_f1": 0.7741935483870968,
+        "llm_judge": {
+          "score": 1.0,
+          "reason": "The actual answer correctly lists all the programming languages from the expected answer, with no additions, omissions, or inaccuracies."
+        }
+      }
+    },
+    {
+      "id": "cv-languages",
+      "document_id": 107,
+      "question": "Which languages does Manar speak and at what levels?",
+      "expected_answer": "Manar speaks Arabic at native level, English fluently, and French at intermediate level.",
+      "expected_chunk_ids": [
+        374
+      ],
+      "expected_chunk_indexes": [
+        8
+      ],
+      "answer_contains": [
+        "Arabic",
+        "Native",
+        "English",
+        "Fluent",
+        "French",
+        "Intermediate"
+      ],
+      "retrieval": {
+        "retrieved_chunk_ids": [
+          366,
+          368,
+          374,
+          371,
+          367
+        ],
+        "retrieved_chunk_indexes": [
+          0,
+          2,
+          8,
+          5,
+          1
+        ],
+        "hit": true,
+        "recall": 1.0,
+        "mrr": 0.3333333333333333
+      },
+      "answer": {
+        "raw_answer": "{\"type\": \"list\", \"intro\": \"Languages spoken by Manar El Fakih Romdhane\", \"items\": [{\"title\": \"Arabic\", \"subtitle\": \"Native\"}, {\"title\": \"English\", \"subtitle\": \"Fluent\"}, {\"title\": \"French\", \"subtitle\": \"Intermediate\"}]}",
+        "structured_answer": {
+          "type": "list",
+          "intro": "Languages spoken by Manar El Fakih Romdhane",
+          "items": [
+            {
+              "title": "Arabic",
+              "subtitle": "Native"
+            },
+            {
+              "title": "English",
+              "subtitle": "Fluent"
+            },
+            {
+              "title": "French",
+              "subtitle": "Intermediate"
+            }
+          ]
+        },
+        "answer_text": "Languages spoken by Manar El Fakih Romdhane\n- Arabic: Native\n- English: Fluent\n- French: Intermediate",
+        "contains_score": 1.0,
+        "token_f1": 0.46153846153846156,
+        "llm_judge": {
+          "score": 1.0,
+          "reason": "The actual answer correctly lists all the languages Manar speaks and their corresponding proficiency levels, matching the expected answer exactly."
+        }
+      }
+    },
+    {
+      "id": "spec-project-title",
+      "document_id": 108,
+      "question": "What is the title of the SaaS project specification?",
+      "expected_answer": "The title is Intelligent AI agent for SaaS document automation.",
+      "expected_chunk_ids": [
+        375
+      ],
+      "expected_chunk_indexes": [
+        0
+      ],
+      "answer_contains": [
+        "Intelligent AI agent",
+        "SaaS document automation"
+      ],
+      "retrieval": {
+        "retrieved_chunk_ids": [
+          375,
+          376,
+          377,
+          378
+        ],
+        "retrieved_chunk_indexes": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "hit": true,
+        "recall": 1.0,
+        "mrr": 1.0
+      },
+      "answer": {
+        "raw_answer": "{\"type\": \"fact\", \"text\": \"The title of the SaaS project specification is 'Intelligent AI agent for SaaS document automation'.\"}",
+        "structured_answer": {
+          "type": "fact",
+          "text": "The title of the SaaS project specification is 'Intelligent AI agent for SaaS document automation'."
+        },
+        "answer_text": "The title of the SaaS project specification is 'Intelligent AI agent for SaaS document automation'.",
+        "contains_score": 1.0,
+        "token_f1": 0.8,
+        "llm_judge": {
+          "score": 1.0,
+          "reason": "The actual answer correctly provides the title of the SaaS project specification as specified in the expected answer, with identical content."
+        }
+      }
+    },
+    {
+      "id": "spec-project-capabilities",
+      "document_id": 108,
+      "question": "What should the SaaS IA platform allow users to do?",
+      "expected_answer": "The platform should allow users to upload documents, extract document content via OCR, store documents, interact with them via RAG, run in Docker, and expose a clean REST API built with FastAPI.",
+      "expected_chunk_ids": [
+        375
+      ],
+      "expected_chunk_indexes": [
+        0
+      ],
+      "answer_contains": [
+        "upload",
+        "OCR",
+        "store docs",
+        "RAG",
+        "docker",
+        "rest api"
+      ],
+      "retrieval": {
+        "retrieved_chunk_ids": [
+          376,
+          375,
+          377,
+          378
+        ],
+        "retrieved_chunk_indexes": [
+          1,
+          0,
+          2,
+          3
+        ],
+        "hit": true,
+        "recall": 1.0,
+        "mrr": 0.5
+      },
+      "answer": {
+        "raw_answer": "{\"type\": \"list\", \"intro\": \"The SaaS IA platform allows users to perform the following actions:\", \"items\": [{\"title\": \"Upload Documents\", \"subtitle\": \"Supports PDF, Word, image formats\", \"tags\": [\"file upload\"], \"details\": \"Users can upload various document types for processing\"}, {\"title\": \"Extract Content\", \"subtitle\": \"Uses OCR for text extraction\", \"tags\": [\"OCR\", \"text extraction\"], \"details\": \"Automatically extracts text from scanned images and PDFs\"}, {\"title\": \"Store Documents\", \"subtitle\": \"Secure cloud storage\", \"tags\": [\"storage\"], \"details\": \"Saves uploaded documents with metadata\"}, {\"title\": \"Interact via RAG\", \"subtitle\": \"Semantic search and Q&A\", \"tags\": [\"RAG\", \"AI\"], \"details\": \"Engages with document content using Retrieval-Augmented Generation\"}]}",
+        "structured_answer": {
+          "type": "list",
+          "intro": "The SaaS IA platform allows users to perform the following actions:",
+          "items": [
+            {
+              "title": "Upload Documents",
+              "subtitle": "Supports PDF, Word, image formats",
+              "tags": [
+                "file upload"
+              ],
+              "details": "Users can upload various document types for processing"
+            },
+            {
+              "title": "Extract Content",
+              "subtitle": "Uses OCR for text extraction",
+              "tags": [
+                "OCR",
+                "text extraction"
+              ],
+              "details": "Automatically extracts text from scanned images and PDFs"
+            },
+            {
+              "title": "Store Documents",
+              "subtitle": "Secure cloud storage",
+              "tags": [
+                "storage"
+              ],
+              "details": "Saves uploaded documents with metadata"
+            },
+            {
+              "title": "Interact via RAG",
+              "subtitle": "Semantic search and Q&A",
+              "tags": [
+                "RAG",
+                "AI"
+              ],
+              "details": "Engages with document content using Retrieval-Augmented Generation"
+            }
+          ]
+        },
+        "answer_text": "The SaaS IA platform allows users to perform the following actions:\n- Upload Documents: Supports PDF, Word, image formats\n- Extract Content: Uses OCR for text extraction\n- Store Documents: Secure cloud storage\n- Interact via RAG: Semantic search and Q&A",
+        "contains_score": 0.5,
+        "token_f1": 0.45714285714285713,
+        "llm_judge": {
+          "score": 0.5,
+          "reason": "The actual answer covers most of the expected features (upload, extract, store, interact via RAG) but omits the Docker compatibility and REST API with FastAPI aspects mentioned in the expected answer."
+        }
+      }
+    },
+    {
+      "id": "spec-use-cases",
+      "document_id": 108,
+      "question": "What user use cases are listed in the use case diagram?",
+      "expected_answer": "The user use cases are Register, Login, Edit Profile, Upload Document, View Docs, and Chat.",
+      "expected_chunk_ids": [
+        376
+      ],
+      "expected_chunk_indexes": [
+        1
+      ],
+      "answer_contains": [
+        "Register",
+        "Login",
+        "Edit Profile",
+        "Upload Document",
+        "View Docs",
+        "Chat"
+      ],
+      "retrieval": {
+        "retrieved_chunk_ids": [
+          376,
+          377,
+          375,
+          378
+        ],
+        "retrieved_chunk_indexes": [
+          1,
+          2,
+          0,
+          3
+        ],
+        "hit": true,
+        "recall": 1.0,
+        "mrr": 1.0
+      },
+      "answer": {
+        "raw_answer": "{\"type\": \"list\", \"intro\": \"User use cases in the use case diagram\", \"items\": [{\"title\": \"Register\", \"subtitle\": \"User creates a new account\", \"tags\": [], \"details\": null}, {\"title\": \"Login\", \"subtitle\": \"User accesses their account\", \"tags\": [], \"details\": null}, {\"title\": \"Edit Profile\", \"subtitle\": \"User modifies their profile details\", \"tags\": [], \"details\": null}, {\"title\": \"Upload Document\", \"subtitle\": \"User submits a document for processing\", \"tags\": [], \"details\": null}, {\"title\": \"View Docs\", \"subtitle\": \"User browses stored documents\", \"tags\": [], \"details\": null}, {\"title\": \"Chat\", \"subtitle\": \"User interacts with the AI via chat\", \"tags\": [], \"details\": null}]}",
+        "structured_answer": {
+          "type": "list",
+          "intro": "User use cases in the use case diagram",
+          "items": [
+            {
+              "title": "Register",
+              "subtitle": "User creates a new account",
+              "tags": [],
+              "details": null
+            },
+            {
+              "title": "Login",
+              "subtitle": "User accesses their account",
+              "tags": [],
+              "details": null
+            },
+            {
+              "title": "Edit Profile",
+              "subtitle": "User modifies their profile details",
+              "tags": [],
+              "details": null
+            },
+            {
+              "title": "Upload Document",
+              "subtitle": "User submits a document for processing",
+              "tags": [],
+              "details": null
+            },
+            {
+              "title": "View Docs",
+              "subtitle": "User browses stored documents",
+              "tags": [],
+              "details": null
+            },
+            {
+              "title": "Chat",
+              "subtitle": "User interacts with the AI via chat",
+              "tags": [],
+              "details": null
+            }
+          ]
+        },
+        "answer_text": "User use cases in the use case diagram\n- Register: User creates a new account\n- Login: User accesses their account\n- Edit Profile: User modifies their profile details\n- Upload Document: User submits a document for processing\n- View Docs: User browses stored documents\n- Chat: User interacts with the AI via chat",
+        "contains_score": 1.0,
+        "token_f1": 0.41269841269841273,
+        "llm_judge": {
+          "score": 1.0,
+          "reason": "The actual answer correctly lists all the user use cases mentioned in the expected answer, even though it includes brief descriptions for each. The core use cases (Register, Login, Edit Profile, Upload Document, View Docs, Chat) are accurately identified."
+        }
+      }
+    },
+    {
+      "id": "spec-tech-layers",
+      "document_id": 108,
+      "question": "Which technology is used as the vector store?",
+      "expected_answer": "pgvector on PostgreSQL is used as the vector store for semantic search.",
+      "expected_chunk_ids": [
+        377
+      ],
+      "expected_chunk_indexes": [
+        2
+      ],
+      "answer_contains": [
+        "pgvector",
+        "PostgreSQL",
+        "semantic search"
+      ],
+      "retrieval": {
+        "retrieved_chunk_ids": [
+          377,
+          375,
+          378,
+          376
+        ],
+        "retrieved_chunk_indexes": [
+          2,
+          0,
+          3,
+          1
+        ],
+        "hit": true,
+        "recall": 1.0,
+        "mrr": 1.0
+      },
+      "answer": {
+        "raw_answer": "{\"type\": \"fact\", \"text\": \"The vector store technology used is pgvector (PostgreSQL).\"}",
+        "structured_answer": {
+          "type": "fact",
+          "text": "The vector store technology used is pgvector (PostgreSQL)."
+        },
+        "answer_text": "The vector store technology used is pgvector (PostgreSQL).",
+        "contains_score": 0.6666666666666666,
+        "token_f1": 0.7000000000000001,
+        "llm_judge": {
+          "score": 1.0,
+          "reason": "The actual answer correctly identifies pgvector (PostgreSQL) as the vector store technology, matching the expected answer's core information. The omission of 'for semantic search' does not affect the correctness of the technology identification."
+        }
+      }
+    },
+    {
+      "id": "spec-upload-flow",
+      "document_id": 108,
+      "question": "What happens after FastAPI receives an uploaded file?",
+      "expected_answer": "FastAPI saves the file to disk and creates a database record with status pending.",
+      "expected_chunk_ids": [
+        378
+      ],
+      "expected_chunk_indexes": [
+        3
+      ],
+      "answer_contains": [
+        "Saves to disk",
+        "creates DB record",
+        "status=pending"
+      ],
+      "retrieval": {
+        "retrieved_chunk_ids": [
+          378,
+          377,
+          375,
+          376
+        ],
+        "retrieved_chunk_indexes": [
+          3,
+          2,
+          0,
+          1
+        ],
+        "hit": true,
+        "recall": 1.0,
+        "mrr": 1.0
+      },
+      "answer": {
+        "raw_answer": "{\"type\": \"fact\", \"text\": \"FastAPI saves the file to disk and creates a DB record with status=pending.\"}",
+        "structured_answer": {
+          "type": "fact",
+          "text": "FastAPI saves the file to disk and creates a DB record with status=pending."
+        },
+        "answer_text": "FastAPI saves the file to disk and creates a DB record with status=pending.",
+        "contains_score": 0.3333333333333333,
+        "token_f1": 0.9285714285714286,
+        "llm_judge": {
+          "score": 1.0,
+          "reason": "The actual answer correctly states both actions (saving the file to disk and creating a DB record with status=pending), which aligns with the expected answer. Minor differences in phrasing (e.g., 'DB record' vs. 'database record', 'status=pending' vs. 'status pending') do not affect the correctness of the response."
+        }
+      }
+    },
+    {
+      "id": "spec-rag-query-flow",
+      "document_id": 108,
+      "question": "What are the main steps in the chatbot RAG query flow?",
+      "expected_answer": "The flow embeds the user question, performs vector search with pgvector, builds a prompt from retrieved chunks and the question, calls the LLM, and returns or streams the answer while saving it to the messages table.",
+      "expected_chunk_ids": [
+        378
+      ],
+      "expected_chunk_indexes": [
+        3
+      ],
+      "answer_contains": [
+        "Embed the question",
+        "Vector search",
+        "Build prompt",
+        "LLM call",
+        "Return answer",
+        "messages table"
+      ],
+      "retrieval": {
+        "retrieved_chunk_ids": [
+          378,
+          377,
+          375,
+          376
+        ],
+        "retrieved_chunk_indexes": [
+          3,
+          2,
+          0,
+          1
+        ],
+        "hit": true,
+        "recall": 1.0,
+        "mrr": 1.0
+      },
+      "answer": {
+        "raw_answer": "{\"type\": \"list\", \"intro\": \"The chatbot RAG query flow involves the following steps:\", \"items\": [{\"title\": \"1. User Sends Question\", \"subtitle\": \"POST /api/v1/chat/{session_id}/message\"}, {\"title\": \"2. Embed Question\", \"subtitle\": \"Convert user question to a vector using same embedding model\"}, {\"title\": \"3. Vector Search\", \"subtitle\": \"pgvector finds top-K most similar chunks (cosine similarity)\"}, {\"title\": \"4. Build Prompt\", \"subtitle\": \"LangChain combines: system prompt + retrieved chunks + user question\"}, {\"title\": \"5. LLM Call\", \"subtitle\": \"Send final prompt to GPT-4 / Claude / local model\"}, {\"title\": \"6. Return Answer\", \"subtitle\": \"Stream or return the AI answer, save to messages table\"}]}",
+        "structured_answer": {
+          "type": "list",
+          "intro": "The chatbot RAG query flow involves the following steps:",
+          "items": [
+            {
+              "title": "1. User Sends Question",
+              "subtitle": "POST /api/v1/chat/{session_id}/message"
+            },
+            {
+              "title": "2. Embed Question",
+              "subtitle": "Convert user question to a vector using same embedding model"
+            },
+            {
+              "title": "3. Vector Search",
+              "subtitle": "pgvector finds top-K most similar chunks (cosine similarity)"
+            },
+            {
+              "title": "4. Build Prompt",
+              "subtitle": "LangChain combines: system prompt + retrieved chunks + user question"
+            },
+            {
+              "title": "5. LLM Call",
+              "subtitle": "Send final prompt to GPT-4 / Claude / local model"
+            },
+            {
+              "title": "6. Return Answer",
+              "subtitle": "Stream or return the AI answer, save to messages table"
+            }
+          ]
+        },
+        "answer_text": "The chatbot RAG query flow involves the following steps:\n- 1. User Sends Question: POST /api/v1/chat/{session_id}/message\n- 2. Embed Question: Convert user question to a vector using same embedding model\n- 3. Vector Search: pgvector finds top-K most similar chunks (cosine similarity)\n- 4. Build Prompt: LangChain combines: system prompt + retrieved chunks + user question\n- 5. LLM Call: Send final prompt to GPT-4 / Claude / local model\n- 6. Return Answer: Stream or return the AI answer, save to messages table",
+        "contains_score": 0.8333333333333334,
+        "token_f1": 0.3448275862068966,
+        "llm_judge": {
+          "score": 1.0,
+          "reason": "The actual answer correctly identifies all the main steps in the RAG query flow as outlined in the expected answer, including embedding, vector search, prompt building, LLM call, and answer return/saving. Additional technical details about API endpoints and specific models are not critical to the core steps and do not detract from the correctness of the answer."
+        }
+      }
+    }
+  ]
+}

@@ -9,12 +9,9 @@ from sqlalchemy.orm import Session
 from app.models.document import Document
 from app.services.document_text import build_coverage_excerpt
 from app.services.summary.config import SUMMARY_MAX_TEXT_CHARS
-from app.services.summary.parser import (
-    build_fallback_summary,
-    normalize_summary,
-)
+from app.services.summary.parser import build_fallback_summary, normalize_summary
 from app.services.summary.storage import save_summary_to_file
-from app.services.summary.summary_components import build_structured_summary
+from app.services.summary.summary_model import generate_model_summary
 
 logger = logging.getLogger(__name__)
 
@@ -31,15 +28,18 @@ def generate_summary(
         return build_fallback_summary(text, document_type, page_count)
 
     coverage_text = build_coverage_excerpt(text, SUMMARY_MAX_TEXT_CHARS)
-    structured = build_structured_summary(
-        coverage_text,
-        document_type,
-        page_count,
-        classified_items,
+    model_structured = generate_model_summary(
+        text=coverage_text,
+        document_type=document_type,
+        classified_items=classified_items,
         filename=filename,
     )
 
-    return normalize_summary(structured, text=coverage_text, page_count=page_count)
+    if not model_structured:
+        logger.warning("Model summary unavailable; using fallback summary")
+        return build_fallback_summary(coverage_text, document_type, page_count)
+
+    return normalize_summary(model_structured, text=coverage_text, page_count=page_count)
 
 
 def generate_and_store_summary(
@@ -59,7 +59,6 @@ def generate_and_store_summary(
         summary = generate_summary(
             text=document.extracted_text,
             document_type=document.doc_type,
-            page_count=getattr(document, "page_count", None),
             classified_items=classified_items,
             filename=document.filename,
         )

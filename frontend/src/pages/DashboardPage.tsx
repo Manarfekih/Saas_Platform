@@ -68,7 +68,6 @@ export default function DashboardPage() {
   });
   const [documents, setDocuments] = useState<DocumentType[]>([]);
   
-  // Delete modal state
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deletingDoc, setDeletingDoc] = useState<DocumentType | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -97,7 +96,6 @@ export default function DashboardPage() {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      // Update the dashboard immediately so the deleted row disappears even if refresh is slow.
       setDocuments((prev) => prev.filter((item) => item.id !== doc.id));
       setDeleteModalOpen(false);
       setDeletingDoc(null);
