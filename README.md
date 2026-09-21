@@ -38,9 +38,7 @@ The system also provides document classification, summaries, conversational chat
 - [26. Development Workflow](#26-development-workflow)
 - [27. Production Considerations](#27-production-considerations)
 - [28. Security](#28-security)
-- [29. Future Improvements](#29-future-improvements)
 - [30. Project Status](#30-project-status)
-- [31. License](#31-license)
 
 ---
 
@@ -1973,35 +1971,9 @@ Uploaded files should also be validated before processing.
 
 ---
 
-# 30. Future Improvements
 
-Potential improvements include:
 
-- More advanced document classification
-- Better OCR/extraction pipelines
-- More robust chunking strategies
-- Hybrid keyword + vector search
-- Reranking retrieved chunks
-- Improved RAG grounding evaluation
-- Context-aware conversation memory
-- Streaming LLM responses
-- Better agent tool selection
-- More comprehensive automated tests
-- Celery retry policies
-- Task monitoring
-- Redis caching strategies
-- Production deployment
-- GPU optimization
-- Multi-user collaboration
-- Fine-grained document permissions
-- Improved evaluation datasets
-- Automated RAG regression testing
-- More robust structured-output validation
-- Better citation/page references in generated answers
-
----
-
-# 31. Project Status
+# 30. Project Status
 
 The platform contains the main components required for an intelligent document automation SaaS application:
 
@@ -2055,7 +2027,7 @@ The project therefore combines:
 
 ---
 
-# 32. Quick Reference
+# 31. Quick Reference
 
 ## Start all Docker services
 
@@ -2127,9 +2099,8 @@ evals/rag_eval.local.jsonl \
 
 ---
 
-# 33. Core Concepts
+# 32. Core Concepts
 
-For developers joining the project, the most important concepts are:
 
 | Concept | Role |
 |---|---|
@@ -2226,4 +2197,3 @@ The main architectural principle is to separate responsibilities:
 - **The AI agent** provides a higher-level intelligent interface.
 - **Docker Compose** coordinates the infrastructure services.
 
-This separation makes the system easier to develop, maintain, test, and extend.
