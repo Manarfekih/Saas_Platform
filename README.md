@@ -7,6 +7,16 @@ The platform allows users to upload documents, extract their content using AI-po
 The system also provides document classification, summaries, conversational chat, authentication, document management, and an AI agent capable of helping users interact with their document knowledge base.
 
 ---
+## 🎥 Project Demo
+
+Watch the demonstration of the **SaaS Intelligent AI Agent for Document Automation**:
+
+[![SaaS Intelligent AI Agent for Document Automation — Demo](https://img.youtube.com/vi/aiHxEt8r5W4/maxresdefault.jpg)](https://youtu.be/aiHxEt8r5W4)
+
+> The demo showcases the AI Agent for prompt clarification and reformulation,
+> document processing, semantic retrieval, RAG-based answer generation,
+
+**▶️ [Watch the full demo](https://youtu.be/aiHxEt8r5W4)**
 
 ## Table of Contents
 
