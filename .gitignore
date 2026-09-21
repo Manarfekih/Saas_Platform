@@ -70,3 +70,7 @@ docker-compose.override.yml
 # OS
 .DS_Store
 Thumbs.db
+
+# Ignore large demo video
+Video_Demo.mp4
+
