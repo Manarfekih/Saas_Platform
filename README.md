@@ -1303,8 +1303,55 @@ api
 postgres
 redis
 celery
-ollama
 ```
+---
+# 🦙 Ollama Setup
+
+## Important: Ollama is NOT part of this project's Dockerfile
+
+My Ollama container is an **independent shared container**.
+
+It is shared between this project and another one on the same machine.
+
+
+
+## Restore Ollama after cloning
+
+If the shared Ollama container does not exist on a new machine, recreate it with:
+
+### Windows CMD
+
+```cmd
+docker run -d ^
+  --name ollama ^
+  -v ollama:/root/.ollama ^
+  -p 11434:11434 ^
+  --restart unless-stopped ^
+  ollama/ollama
+```
+
+### Pull the required models
+
+```cmd
+docker exec ollama ollama pull c
+docker exec ollama ollama pull qwen3:8b
+```
+
+### Verify
+
+```cmd
+docker exec ollama ollama list
+```
+
+Expected models:
+
+```text
+nomic-embed-text:latest
+qwen2.5vl:7b
+qwen3:8b
+```
+
+> The Ollama container is intentionally independent from the DataTalk Docker configuration.
 
 ---
 
@@ -1465,6 +1512,7 @@ A basic end-to-end test should follow this sequence:
 ---
 
 # 24. RAG Evaluation
+**Note** You can Consult the RAG Evaluation report for mare interpretation (it is already in the same git repo)
 
 The project includes a dedicated evaluation framework for measuring retrieval and answer quality.
 
